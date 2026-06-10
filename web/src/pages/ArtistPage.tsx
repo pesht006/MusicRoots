@@ -33,16 +33,23 @@ function LinkCard({
           {s.url && (
             <>
               {" "}
-              <a href={s.url} target="_blank" rel="noreferrer" style={{ color: "var(--heir)" }}>
-                ссылка
+              <a className="ext" href={s.url} target="_blank" rel="noreferrer">
+                открыть источник ↗
               </a>
             </>
           )}
         </div>
       ))}
-      <button className="btn-sm" style={{ marginTop: 10 }} onClick={() => onGo(link.artist.slug)}>
-        В древе →
-      </button>
+      <div className="row wrap" style={{ gap: 10, marginTop: 10 }}>
+        <button className="btn-sm" onClick={() => onGo(link.artist.slug)}>
+          В древе →
+        </button>
+        {link.artist.wiki && (
+          <a className="ext" href={link.artist.wiki} target="_blank" rel="noreferrer">
+            Wikipedia: {link.artist.name} ↗
+          </a>
+        )}
+      </div>
     </div>
   );
 }
