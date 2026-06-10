@@ -1,0 +1,19 @@
+{
+  "name": "musicroots-server",
+  "version": "0.1.0",
+  "description": "MusicRoots API — musical genealogy of influences",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "seed": "node src/seed.js",
+    "test": "node --test"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "better-sqlite3": "^11.8.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}
