@@ -40,7 +40,23 @@ Metallica → Motörhead → Jimi Hendrix
 
 ---
 
-## Запуск
+## Демо (GitHub Pages)
+
+Сайт автоматически публикуется на GitHub Pages через workflow
+[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml):
+`https://<owner>.github.io/MusicRoots/`.
+
+Поскольку GitHub Pages раздаёт только статику, для демо собирается **браузерная
+версия** (`VITE_STATIC=true`): данные влияний загружаются прямо в браузере из снимка
+сида ([`web/src/data/seed.json`](web/src/data/seed.json)), а очередь модерации
+сохраняется в `localStorage`. Полноценная версия с API и SQLite используется при
+локальной разработке (см. ниже).
+
+> Если Pages ещё не включён, откройте **Settings → Pages → Build and deployment →
+> Source: GitHub Actions** и перезапустите workflow (вкладка **Actions**). Workflow
+> также пытается включить Pages автоматически.
+
+## Запуск (полная версия с API)
 
 Требуется Node.js 18+.
 

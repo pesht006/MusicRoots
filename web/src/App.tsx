@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, Route, Routes } from "react-router-dom";
-import { api, type Stats } from "./api";
+import { api, IS_STATIC, type Stats } from "./api";
 import HomePage from "./pages/HomePage";
 import ExplorePage from "./pages/ExplorePage";
 import ArtistPage from "./pages/ArtistPage";
@@ -28,6 +28,15 @@ export default function App() {
           <NavLink to="/about">О проекте</NavLink>
         </div>
         <div className="spacer" />
+        {IS_STATIC && (
+          <span
+            className="badge"
+            title="Демо-режим: данные загружаются в браузере, модерация сохраняется локально"
+            style={{ borderColor: "var(--accent)", color: "var(--text)" }}
+          >
+            демо
+          </span>
+        )}
         {stats && (
           <span className="badge">
             {stats.artists} артистов · {stats.influences} связей

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import SearchBox from "../components/SearchBox";
-import { api, SOURCE_LABELS, type Contribution, type SourceType } from "../api";
+import { api, IS_STATIC, SOURCE_LABELS, type Contribution, type SourceType } from "../api";
 
 type Kind = Contribution["kind"];
 
@@ -114,6 +114,12 @@ export default function ContributePage() {
         Все предложения проходят модерацию перед публикацией. Любая новая связь должна
         опираться на достоверный источник.
       </p>
+      {IS_STATIC && (
+        <p className="muted" style={{ fontSize: 13, color: "var(--accent-2)" }}>
+          Демо-режим: заявки сохраняются локально в вашем браузере. Откройте раздел
+          «Модерация», чтобы одобрить их и увидеть изменения в древе.
+        </p>
+      )}
 
       <div className="row wrap" style={{ gap: 8, margin: "18px 0" }}>
         {KINDS.map((k) => (

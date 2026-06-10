@@ -1,3 +1,5 @@
+import { staticApi } from "./staticApi";
+
 export type ArtistType = "artist" | "band";
 export type Confidence = "high" | "medium" | "low";
 export type SourceType =
@@ -89,7 +91,7 @@ async function req<T>(path: string, init?: RequestInit): Promise<T> {
   return res.json() as Promise<T>;
 }
 
-export const api = {
+const httpApi = {
   stats: () => req<Stats>("/stats"),
   artists: (search = "") =>
     req<Artist[]>(`/artists?search=${encodeURIComponent(search)}`),
@@ -118,6 +120,15 @@ export const api = {
       body: JSON.stringify({ note }),
     }),
 };
+
+export type Api = typeof httpApi;
+
+// Static (in-browser) mode is used for the GitHub Pages build, where there is
+// no backend. Local dev uses the live HTTP API + Express/SQLite server.
+const useStatic = import.meta.env.VITE_STATIC === "true";
+
+export const api: Api = useStatic ? (staticApi as Api) : httpApi;
+export const IS_STATIC = useStatic;
 
 export const SOURCE_LABELS: Record<SourceType, string> = {
   interview: "Интервью",
