@@ -42,9 +42,10 @@ Metallica → Motörhead → Jimi Hendrix
 
 ## Демо (GitHub Pages)
 
-Сайт автоматически публикуется на GitHub Pages через workflow
-[`.github/workflows/deploy.yml`](.github/workflows/deploy.yml):
-`https://<owner>.github.io/MusicRoots/`.
+Адрес демо: **<https://pesht006.github.io/MusicRoots/>**
+
+Workflow [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml) на каждый push
+собирает сайт и публикует его в ветку `gh-pages`.
 
 Поскольку GitHub Pages раздаёт только статику, для демо собирается **браузерная
 версия** (`VITE_STATIC=true`): данные влияний загружаются прямо в браузере из снимка
@@ -52,9 +53,10 @@ Metallica → Motörhead → Jimi Hendrix
 сохраняется в `localStorage`. Полноценная версия с API и SQLite используется при
 локальной разработке (см. ниже).
 
-> Если Pages ещё не включён, откройте **Settings → Pages → Build and deployment →
-> Source: GitHub Actions** и перезапустите workflow (вкладка **Actions**). Workflow
-> также пытается включить Pages автоматически.
+> **Однократно нужно включить Pages** (доступно только владельцу репозитория):
+> **Settings → Pages → Build and deployment → Source: «Deploy from a branch» →
+> Branch: `gh-pages` / `(root)` → Save**. Через ~1 минуту сайт станет доступен по
+> адресу выше. Дальнейшие пуши обновляют его автоматически.
 
 ## Запуск (полная версия с API)
 
