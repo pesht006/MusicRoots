@@ -84,8 +84,8 @@ export default function ArtistPage() {
             <button className="btn-primary" onClick={() => nav(`/explore?focus=${a.slug}`)}>
               Открыть в древе
             </button>
-            <Link className="btn btn-ghost" to={`/contribute?artist=${a.slug}`}>
-              Предложить связь
+            <Link className="btn btn-ghost" to={`/report?artist=${a.slug}`}>
+              Нашли ошибку
             </Link>
             {a.wiki && (
               <a className="btn btn-ghost" href={a.wiki} target="_blank" rel="noreferrer">

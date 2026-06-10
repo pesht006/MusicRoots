@@ -4,8 +4,8 @@ import { api, IS_STATIC, type Stats } from "./api";
 import HomePage from "./pages/HomePage";
 import ExplorePage from "./pages/ExplorePage";
 import ArtistPage from "./pages/ArtistPage";
-import ContributePage from "./pages/ContributePage";
-import ModerationPage from "./pages/ModerationPage";
+import SuggestPage from "./pages/SuggestPage";
+import ReportPage from "./pages/ReportPage";
 import AboutPage from "./pages/AboutPage";
 
 export default function App() {
@@ -23,8 +23,8 @@ export default function App() {
         </NavLink>
         <div className="links">
           <NavLink to="/explore">Древо</NavLink>
-          <NavLink to="/contribute">Участвовать</NavLink>
-          <NavLink to="/moderation">Модерация</NavLink>
+          <NavLink to="/suggest">Предложить исполнителя</NavLink>
+          <NavLink to="/report">Нашли ошибку</NavLink>
           <NavLink to="/about">О проекте</NavLink>
         </div>
         <div className="spacer" />
@@ -48,8 +48,8 @@ export default function App() {
         <Route path="/" element={<HomePage stats={stats} />} />
         <Route path="/explore" element={<ExplorePage />} />
         <Route path="/artist/:slug" element={<ArtistPage />} />
-        <Route path="/contribute" element={<ContributePage />} />
-        <Route path="/moderation" element={<ModerationPage />} />
+        <Route path="/suggest" element={<SuggestPage />} />
+        <Route path="/report" element={<ReportPage />} />
         <Route path="/about" element={<AboutPage />} />
       </Routes>
     </>

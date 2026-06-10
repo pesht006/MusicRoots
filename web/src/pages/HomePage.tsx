@@ -37,8 +37,8 @@ export default function HomePage({ stats }: { stats: Stats | null }) {
           <button className="btn-primary" onClick={() => nav("/explore?focus=metallica")}>
             Открыть древо
           </button>
-          <button className="btn-ghost" onClick={() => nav("/contribute")}>
-            Предложить связь
+          <button className="btn-ghost" onClick={() => nav("/suggest")}>
+            Предложить исполнителя
           </button>
         </div>
 
@@ -78,8 +78,8 @@ export default function HomePage({ stats }: { stats: Stats | null }) {
         <div className="card">
           <h3 style={{ marginTop: 0 }}>Сила сообщества</h3>
           <p className="muted">
-            Предлагайте новые связи и источники, сообщайте об ошибках. Всё проходит
-            модерацию перед публикацией.
+            Предлагайте артистов для добавления и сообщайте об ошибках. Заявки
+            проверяются вручную перед публикацией.
           </p>
         </div>
       </div>
