@@ -103,11 +103,16 @@ export default function ExplorePage() {
               onChange={(e) => setDepth(Number(e.target.value))}
             />
             <div className="legend">
-              <div className="li"><span className="sw" style={{ background: "#ff8a3d" }} /> корни влияния (предки)</div>
-              <div className="li"><span className="sw" style={{ background: "#7c5cff" }} /> текущий артист</div>
-              <div className="li"><span className="sw" style={{ background: "#4aa8ff" }} /> наследники</div>
-              <div className="li" style={{ marginTop: 4 }}>стрелка → указывает на источник влияния</div>
-              <div className="li muted">клик — перейти · двойной клик — открыть страницу</div>
+              <div className="lhead">Узлы (роль)</div>
+              <div className="li"><span className="sw" style={{ background: "#ef7a1a" }} /> корни влияния (предки)</div>
+              <div className="li"><span className="sw" style={{ background: "#6b4eff" }} /> текущий артист</div>
+              <div className="li"><span className="sw" style={{ background: "#2f86ff" }} /> наследники</div>
+              <div className="lhead" style={{ marginTop: 8 }}>Цвет стрелки = надёжность источника</div>
+              <div className="li"><span className="sw" style={{ background: "#0a9d7d" }} /> высокая</div>
+              <div className="li"><span className="sw" style={{ background: "#c08400" }} /> средняя</div>
+              <div className="li"><span className="sw" style={{ background: "#9aa3b5" }} /> требует подтверждения</div>
+              <div className="li" style={{ marginTop: 6 }}>стрелка → указывает на источник влияния (корень)</div>
+              <div className="li muted">клик — перейти · двойной клик — страница</div>
             </div>
           </div>
 

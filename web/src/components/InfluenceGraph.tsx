@@ -12,6 +12,12 @@ const CONF_COLOR: Record<string, string> = {
   low: "#9aa3b5",
 };
 
+const CONF_RU: Record<string, string> = {
+  high: "высокая",
+  medium: "средняя",
+  low: "требует подтверждения",
+};
+
 interface Positioned extends GraphNode {
   x: number;
   y: number;
@@ -73,6 +79,34 @@ export default function InfluenceGraph({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [graph.focus.slug, size.w, size.h]);
 
+  // Pan handling on window so a fast mouse-up outside the canvas is never lost
+  // (otherwise dragging would "stick" and fling the graph off-screen).
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      if (!drag.current) return;
+      if (e.buttons === 0) {
+        drag.current = null;
+        setGrabbing(false);
+        return;
+      }
+      setT((prev) => ({
+        ...prev,
+        x: drag.current!.tx + (e.clientX - drag.current!.x),
+        y: drag.current!.ty + (e.clientY - drag.current!.y),
+      }));
+    };
+    const onUp = () => {
+      drag.current = null;
+      setGrabbing(false);
+    };
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+    };
+  }, []);
+
   const onWheel = (e: React.WheelEvent) => {
     e.preventDefault();
     const rect = wrapRef.current!.getBoundingClientRect();
@@ -87,20 +121,10 @@ export default function InfluenceGraph({
   };
 
   const onMouseDown = (e: React.MouseEvent) => {
+    // Prevent native text/element drag which can hijack the mouse-up.
+    e.preventDefault();
     drag.current = { x: e.clientX, y: e.clientY, tx: t.x, ty: t.y };
     setGrabbing(true);
-  };
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (!drag.current) return;
-    setT((prev) => ({
-      ...prev,
-      x: drag.current!.tx + (e.clientX - drag.current!.x),
-      y: drag.current!.ty + (e.clientY - drag.current!.y),
-    }));
-  };
-  const endDrag = () => {
-    drag.current = null;
-    setGrabbing(false);
   };
 
   const edgePath = (e: GraphEdge) => {
@@ -119,9 +143,6 @@ export default function InfluenceGraph({
       className="graph-wrap"
       ref={wrapRef}
       style={{ position: "absolute", inset: 0 }}
-      onMouseMove={onMouseMove}
-      onMouseUp={endDrag}
-      onMouseLeave={endDrag}
     >
       <svg
         className={`graph-svg${grabbing ? " grabbing" : ""}`}
@@ -230,7 +251,7 @@ export default function InfluenceGraph({
           </div>
           <div className="muted" style={{ marginBottom: 6 }}>{hoverEdge.edge.description}</div>
           <span className={`pill ${hoverEdge.edge.confidence}`}>
-            {hoverEdge.edge.sourceCount} источн. · {hoverEdge.edge.confidence}
+            надёжность источника: {CONF_RU[hoverEdge.edge.confidence]} · {hoverEdge.edge.sourceCount} источн.
           </span>
         </div>
       )}
