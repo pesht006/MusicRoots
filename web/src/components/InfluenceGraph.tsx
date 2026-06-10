@@ -7,9 +7,9 @@ const NODE_W = 168;
 const NODE_H = 50;
 
 const CONF_COLOR: Record<string, string> = {
-  high: "#00d3a7",
-  medium: "#f2c14e",
-  low: "#8a93a8",
+  high: "#0a9d7d",
+  medium: "#c08400",
+  low: "#9aa3b5",
 };
 
 interface Positioned extends GraphNode {
@@ -175,7 +175,7 @@ export default function InfluenceGraph({
 
           {[...positioned.values()].map((n) => {
             const isFocus = n.id === graph.focus.id;
-            const roleColor = n.level < 0 ? "#ff8a3d" : n.level > 0 ? "#4aa8ff" : "#7c5cff";
+            const roleColor = n.level < 0 ? "#ef7a1a" : n.level > 0 ? "#2f86ff" : "#6b4eff";
             return (
               <g
                 key={n.id}
@@ -196,21 +196,21 @@ export default function InfluenceGraph({
                   width={NODE_W}
                   height={NODE_H}
                   rx={12}
-                  fill={isFocus ? "#241b4d" : "#161c2b"}
+                  fill={isFocus ? "#efeaff" : "#ffffff"}
                   stroke={roleColor}
-                  strokeWidth={isFocus ? 2.4 : 1.4}
+                  strokeWidth={isFocus ? 2.6 : 1.4}
                 />
                 <text
                   x={0}
                   y={-2}
                   textAnchor="middle"
-                  fill="#e6e9f0"
+                  fill="#1b2233"
                   fontSize={13}
                   fontWeight={700}
                 >
                   {n.name.length > 20 ? n.name.slice(0, 19) + "…" : n.name}
                 </text>
-                <text x={0} y={14} textAnchor="middle" fill="#98a2b8" fontSize={10}>
+                <text x={0} y={14} textAnchor="middle" fill="#5f6b85" fontSize={10}>
                   {n.type === "band" ? "группа" : "артист"}
                   {n.activeFrom ? ` · ${n.activeFrom}` : ""}
                 </text>
