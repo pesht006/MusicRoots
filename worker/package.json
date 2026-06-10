@@ -1,0 +1,13 @@
+{
+  "name": "musicroots-submissions-worker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MusicRoots guest submissions (Cloudflare Worker + KV)",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^3.90.0"
+  }
+}

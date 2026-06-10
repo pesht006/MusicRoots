@@ -1,0 +1,53 @@
+name: Deploy MusicRoots to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - cursor/music-influence-tree-4279
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        working-directory: web
+        run: npm ci
+
+      - name: Build static site
+        working-directory: web
+        env:
+          VITE_STATIC: "true"
+          VITE_BASE: "/MusicRoots/"
+          # Set these in repo Settings → Secrets and variables → Actions → Variables
+          # after deploying the Cloudflare Worker (see worker/README.md).
+          VITE_SUBMIT_URL: ${{ vars.SUBMIT_URL }}
+          VITE_TURNSTILE_SITEKEY: ${{ vars.TURNSTILE_SITEKEY }}
+        run: npm run build:static
+
+      # Publish the built site to the gh-pages branch. This avoids the
+      # environment branch restrictions of the official Pages deploy action,
+      # so it works when run from a feature branch.
+      - name: Publish to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: web/dist
+          publish_branch: gh-pages
+          force_orphan: true
