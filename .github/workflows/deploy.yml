@@ -35,6 +35,10 @@ jobs:
         env:
           VITE_STATIC: "true"
           VITE_BASE: "/MusicRoots/"
+          # Set these in repo Settings → Secrets and variables → Actions → Variables
+          # after deploying the Cloudflare Worker (see worker/README.md).
+          VITE_SUBMIT_URL: ${{ vars.SUBMIT_URL }}
+          VITE_TURNSTILE_SITEKEY: ${{ vars.TURNSTILE_SITEKEY }}
         run: npm run build:static
 
       # Publish the built site to the gh-pages branch. This avoids the
