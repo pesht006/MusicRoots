@@ -1,0 +1,20 @@
+# Cloudflare Worker for MusicRoots guest submissions.
+# Deploy: see worker/README.md
+name = "musicroots-submissions"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+# Daily cap on accepted submissions (per UTC day). Change freely.
+[vars]
+DAILY_LIMIT = "500"
+
+# KV namespace that stores the daily lists + counters.
+# Create it once:  npx wrangler kv namespace create SUBMISSIONS
+# then paste the printed id below.
+[[kv_namespaces]]
+binding = "SUBMISSIONS"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+# Secrets (do NOT put here — set via wrangler):
+#   npx wrangler secret put TURNSTILE_SECRET   # Cloudflare Turnstile secret key
+#   npx wrangler secret put ADMIN_TOKEN        # any long random string for /admin
