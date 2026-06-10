@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Avatar from "../components/Avatar";
 import {
   api, years, SOURCE_LABELS, CONFIDENCE_LABELS,
   type ArtistDetail, type InfluenceLink,
@@ -14,9 +15,12 @@ function LinkCard({
   return (
     <div className="card" style={{ padding: 14, marginBottom: 12 }}>
       <div className="row" style={{ justifyContent: "space-between" }}>
-        <Link to={`/artist/${link.artist.slug}`} style={{ fontWeight: 800, fontSize: 17 }}>
-          {link.artist.name}
-        </Link>
+        <div className="who">
+          <Avatar name={link.artist.name} image={link.artist.image} size={40} rounded={10} />
+          <Link to={`/artist/${link.artist.slug}`} style={{ fontWeight: 800, fontSize: 17 }}>
+            {link.artist.name}
+          </Link>
+        </div>
         <span className={`pill ${link.confidence}`} title={CONFIDENCE_LABELS[link.confidence]}>
           {link.confidence}
         </span>
@@ -62,7 +66,9 @@ export default function ArtistPage() {
   return (
     <div className="page">
       <div className="artist-head">
-        <div className="avatar">{a.name[0]}</div>
+        <div className="photo">
+          <Avatar name={a.name} image={a.image} size={96} rounded={18} />
+        </div>
         <div style={{ flex: 1, minWidth: 240 }}>
           <div className="row wrap" style={{ gap: 8 }}>
             <span className="pill type">{a.type === "band" ? "группа" : "артист"}</span>
@@ -81,6 +87,11 @@ export default function ArtistPage() {
             <Link className="btn btn-ghost" to={`/contribute?artist=${a.slug}`}>
               Предложить связь
             </Link>
+            {a.wiki && (
+              <a className="btn btn-ghost" href={a.wiki} target="_blank" rel="noreferrer">
+                Wikipedia ↗
+              </a>
+            )}
           </div>
         </div>
       </div>

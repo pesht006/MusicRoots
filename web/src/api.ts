@@ -16,6 +16,8 @@ export interface Artist {
   activeTo: number | null;
   country: string;
   tags: string[];
+  image: string;
+  wiki: string;
 }
 
 export interface Source {

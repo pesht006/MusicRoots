@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { api, years, type Artist } from "../api";
+import Avatar from "./Avatar";
 
 export default function SearchBox({
   placeholder = "Найти артиста или группу…",
@@ -58,7 +59,8 @@ export default function SearchBox({
                 setQ("");
               }}
             >
-              <span>
+              <span className="who">
+                <Avatar name={a.name} image={a.image} size={28} rounded={8} />
                 {a.name}{" "}
                 <span className="pill type">{a.type === "band" ? "группа" : "артист"}</span>
               </span>

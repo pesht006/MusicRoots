@@ -122,6 +122,70 @@ export const artists = [
     bio: "Гитарист, возродивший интерес к блюзу в 1980-х." },
 ];
 
+// Representative photo per artist (Wikimedia Commons). Empty → initials avatar.
+const imageMap = {
+  "charley-patton": "https://upload.wikimedia.org/wikipedia/commons/a/af/Charley_Patton_%281929_photo_portrait%29.jpg",
+  "son-house": "https://upload.wikimedia.org/wikipedia/commons/d/d9/Son_House.jpg",
+  "blind-lemon-jefferson": "https://upload.wikimedia.org/wikipedia/commons/2/22/Blindlemonjeffersoncirca1926.jpg",
+  "robert-johnson": "https://upload.wikimedia.org/wikipedia/en/b/b3/Robert_Johnson.png",
+  "lead-belly": "https://upload.wikimedia.org/wikipedia/commons/f/f0/Leadbelly_with_Accordeon.jpg",
+  "sister-rosetta-tharpe": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Sister_Rosetta_Tharpe_%281938_publicity_photo_-_headshot%29.jpg",
+  "arthur-crudup": "https://upload.wikimedia.org/wikipedia/commons/e/eb/Arthur_Crudup_AABF_1970_JT.jpg",
+  "big-mama-thornton": "https://upload.wikimedia.org/wikipedia/en/b/b3/Thornton_Big_Mama_01.jpg",
+  "t-bone-walker": "https://upload.wikimedia.org/wikipedia/en/0/04/T-Bone_Walker_in_1942.jpg",
+  "muddy-waters": "https://upload.wikimedia.org/wikipedia/commons/c/ce/Muddy_Waters_november_1976.jpg",
+  "howlin-wolf": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Howlin_Wolf_AABF_1970_JT.jpg",
+  "bb-king": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Bbking.jpg",
+  "chuck-berry": "https://upload.wikimedia.org/wikipedia/commons/2/20/Chuck_Berry_1957.jpg",
+  "little-richard": "https://upload.wikimedia.org/wikipedia/commons/9/90/Little_Richard_1957_%28crop%29.jpg",
+  "elvis-presley": "https://upload.wikimedia.org/wikipedia/commons/9/99/Elvis_Presley_promoting_Jailhouse_Rock.jpg",
+  "buddy-holly": "https://upload.wikimedia.org/wikipedia/commons/0/00/Buddy_Holly_Brunswick_Records.jpg",
+  "woody-guthrie": "https://upload.wikimedia.org/wikipedia/commons/0/09/Woody_Guthrie_2.jpg",
+  "hank-williams": "https://upload.wikimedia.org/wikipedia/commons/6/62/Hank_Williams_Promotional_Photo.jpg",
+  "the-beatles": "https://upload.wikimedia.org/wikipedia/commons/4/42/The_Beatles_1963_Dezo_Hoffman_Capitol_Records_press_photo_2.jpg",
+  "the-rolling-stones": "https://upload.wikimedia.org/wikipedia/commons/1/10/The_Rolling_Stones_Summerfest_in_Milwaukee_-_2015.jpg",
+  "bob-dylan": "https://upload.wikimedia.org/wikipedia/commons/2/2a/DylanYoungKilkenny140719v2_%2850_of_52%29_%2852246124397%29_%28cropped%29.jpg",
+  "jimi-hendrix": "https://upload.wikimedia.org/wikipedia/commons/a/aa/Jimi_Hendrix_%281967%29_%28cropped%29.jpg",
+  "cream": "https://upload.wikimedia.org/wikipedia/commons/5/58/Cream_Clapton_Bruce_Baker_1960s.jpg",
+  "the-stooges": "https://upload.wikimedia.org/wikipedia/commons/1/16/Iggy_and_The_Stooges_-_4572393187.jpg",
+  "deep-purple": "https://upload.wikimedia.org/wikipedia/commons/1/18/Deep_Purple_%281971%29.JPG",
+  "black-sabbath": "https://upload.wikimedia.org/wikipedia/commons/4/42/Sabs.jpg",
+  "led-zeppelin": "https://upload.wikimedia.org/wikipedia/commons/6/63/Led_Zeppelin_-_promotional_image_%281971%29.jpg",
+  "motorhead": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Motorhead-03.jpg",
+  "metallica": "https://upload.wikimedia.org/wikipedia/commons/8/81/Metallica_March_2024.jpg",
+  "ramones": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Ramones_rocket_to_russia_photo.jpg",
+  "sex-pistols": "https://upload.wikimedia.org/wikipedia/commons/1/1e/Sex_Pistols_in_Paradiso.jpg",
+  "black-flag": "https://upload.wikimedia.org/wikipedia/commons/7/79/Black_Flag_performing_at_the_Electric_Ballroom_Camden_2019_%28cropped%29.jpg",
+  "nirvana": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Nirvana_around_1992_%28high_quality%29_%28cropped%29.jpg",
+  "stevie-ray-vaughan": "https://upload.wikimedia.org/wikipedia/commons/4/43/Stevie_Ray_Vaughan_Live_1983.jpg",
+};
+
+// Wikipedia article (English) per artist — a reference link shown in the UI.
+const wikiTitles = {
+  "charley-patton": "Charley Patton", "son-house": "Son House",
+  "blind-lemon-jefferson": "Blind Lemon Jefferson", "robert-johnson": "Robert Johnson",
+  "lead-belly": "Lead Belly", "sister-rosetta-tharpe": "Sister Rosetta Tharpe",
+  "arthur-crudup": "Arthur Crudup", "big-mama-thornton": "Big Mama Thornton",
+  "t-bone-walker": "T-Bone Walker", "muddy-waters": "Muddy Waters",
+  "howlin-wolf": "Howlin' Wolf", "bb-king": "B.B. King", "chuck-berry": "Chuck Berry",
+  "little-richard": "Little Richard", "elvis-presley": "Elvis Presley",
+  "buddy-holly": "Buddy Holly", "woody-guthrie": "Woody Guthrie",
+  "hank-williams": "Hank Williams", "the-beatles": "The Beatles",
+  "the-rolling-stones": "The Rolling Stones", "bob-dylan": "Bob Dylan",
+  "jimi-hendrix": "Jimi Hendrix", "cream": "Cream (band)", "the-stooges": "The Stooges",
+  "deep-purple": "Deep Purple", "black-sabbath": "Black Sabbath",
+  "led-zeppelin": "Led Zeppelin", "motorhead": "Motörhead",
+  "diamond-head": "Diamond Head (band)", "metallica": "Metallica", "ramones": "Ramones",
+  "sex-pistols": "Sex Pistols", "black-flag": "Black Flag (band)", "pixies": "Pixies",
+  "nirvana": "Nirvana (band)", "stevie-ray-vaughan": "Stevie Ray Vaughan",
+};
+
+for (const a of artists) {
+  a.image = imageMap[a.slug] || "";
+  const t = wikiTitles[a.slug];
+  a.wiki = t ? "https://en.wikipedia.org/wiki/" + encodeURIComponent(t.replace(/ /g, "_")) : "";
+}
+
 const E = (artist, influenced_by, description, sources) =>
   ({ artist, influenced_by, description, sources });
 const S = (type, citation, author = "", year = null, url = "") =>
@@ -160,15 +224,15 @@ export const influences = [
   E("little-richard", "sister-rosetta-tharpe", "Сестра Розетта вывела юного Литла Ричарда на сцену.",
     [S("documentary", "Док. фильм «The Godmother of Rock & Roll»: Тарп пригласила подростка Ричарда петь.", "", 2011)]),
   E("elvis-presley", "arthur-crudup", "Дебютный сингл Элвиса — кавер «That's All Right» Артура Крудапа.",
-    [S("interview", "Elvis: «Если бы я мог петь как Артур Крудап, я был бы счастлив».", "Elvis Presley", 1956)]),
+    [S("interview", "Elvis: «Если бы я мог петь как Артур Крудап, я был бы счастлив».", "Elvis Presley", 1956, "https://en.wikipedia.org/wiki/That%27s_All_Right")]),
   E("elvis-presley", "big-mama-thornton", "«Hound Dog» Элвиса — версия песни, впервые записанной Big Mama Thornton.",
-    [S("encyclopedia", "Оригинал «Hound Dog» записан Big Mama Thornton в 1952 году.", "AllMusic", 1952)]),
+    [S("encyclopedia", "Оригинал «Hound Dog» записан Big Mama Thornton в 1952 году.", "AllMusic", 1952, "https://en.wikipedia.org/wiki/Hound_Dog_(song)")]),
   E("elvis-presley", "sister-rosetta-tharpe", "Госпел-фразировка Тарп слышна в ранней манере Элвиса.",
     [S("documentary", "BBC: влияние Sister Rosetta Tharpe на вокал раннего рок-н-ролла, включая Элвиса.", "BBC")]),
 
   // Folk / country to Dylan
   E("bob-dylan", "woody-guthrie", "Дилан приехал в Нью-Йорк, чтобы навестить кумира Вуди Гатри.",
-    [S("autobiography", "Bob Dylan, «Chronicles, Vol. 1»: Гатри как определяющее влияние.", "Bob Dylan", 2004)]),
+    [S("autobiography", "Bob Dylan, «Chronicles, Vol. 1»: Гатри как определяющее влияние.", "Bob Dylan", 2004, "https://en.wikipedia.org/wiki/Chronicles,_Volume_One")]),
   E("bob-dylan", "robert-johnson", "Дилан подробно описывал, как пластинки Джонсона перевернули его письмо.",
     [S("autobiography", "Bob Dylan, «Chronicles, Vol. 1»: влияние Роберта Джонсона на тексты.", "Bob Dylan", 2004)]),
   E("bob-dylan", "hank-williams", "Дилан называл песни Хэнка Уильямса школой сонграйтинга.",
@@ -184,7 +248,7 @@ export const influences = [
   E("the-beatles", "buddy-holly", "Само название и формат группы вдохновлены The Crickets Бадди Холли.",
     [S("encyclopedia", "Имя «Beatles» — отсылка к «Crickets»; влияние Buddy Holly на формат группы.", "AllMusic")]),
   E("the-rolling-stones", "muddy-waters", "Группа взяла название из песни Мадди Уотерса «Rollin' Stone».",
-    [S("encyclopedia", "Название The Rolling Stones происходит от песни Мадди Уотерса.", "AllMusic", 1962)]),
+    [S("encyclopedia", "Название The Rolling Stones происходит от песни Мадди Уотерса.", "AllMusic", 1962, "https://en.wikipedia.org/wiki/Rollin%27_Stone_(Muddy_Waters_song)")]),
   E("the-rolling-stones", "chuck-berry", "Ранний репертуар Stones строился на песнях Чака Берри.",
     [S("interview", "Keith Richards многократно называл Chuck Berry главным влиянием на свою игру.", "Keith Richards")]),
   E("the-rolling-stones", "robert-johnson", "Stones записали «Love in Vain» и «Stop Breaking Down» Джонсона.",
@@ -204,7 +268,7 @@ export const influences = [
 
   // Cream
   E("cream", "robert-johnson", "Cream сделали хитом «Crossroads» Роберта Джонсона.",
-    [S("encyclopedia", "Cream популяризировали «Cross Road Blues» Роберта Джонсона.", "AllMusic", 1968)]),
+    [S("encyclopedia", "Cream популяризировали «Cross Road Blues» Роберта Джонсона.", "AllMusic", 1968, "https://en.wikipedia.org/wiki/Cross_Road_Blues")]),
   E("cream", "muddy-waters", "Чикагский блюз Уотерса — фундамент репертуара Cream.",
     [S("interview", "Eric Clapton называл Мадди Уотерса крёстным отцом всего, что он делает.", "Eric Clapton")]),
 
@@ -212,7 +276,7 @@ export const influences = [
   E("led-zeppelin", "howlin-wolf", "Zeppelin адаптировали «How Many More Times» из песен Хаулин Вульфа.",
     [S("encyclopedia", "Ряд тем Led Zeppelin восходит к Howlin' Wolf и Willie Dixon.", "AllMusic")]),
   E("led-zeppelin", "robert-johnson", "«Travelling Riverside Blues» — прямая отсылка к Джонсону.",
-    [S("encyclopedia", "Led Zeppelin записали «Travelling Riverside Blues» Роберта Джонсона.", "AllMusic")]),
+    [S("encyclopedia", "Led Zeppelin записали «Travelling Riverside Blues» Роберта Джонсона.", "AllMusic", null, "https://en.wikipedia.org/wiki/Travelling_Riverside_Blues")]),
   E("led-zeppelin", "muddy-waters", "Чикагский электроблюз Уотерса — основа тяжёлого блюз-рока Zeppelin.",
     [S("interview", "Jimmy Page называл Чесс-блюз, включая Мадди Уотерса, ключевым влиянием.", "Jimmy Page")]),
   E("led-zeppelin", "jimi-hendrix", "Подход Хендрикса к тяжёлому звуку гитары повлиял на Джимми Пейджа.",
@@ -222,7 +286,7 @@ export const influences = [
   E("black-sabbath", "cream", "Ранний Sabbath отталкивался от тяжёлого блюз-рока Cream.",
     [S("interview", "Tony Iommi называл Cream одним из первых ориентиров группы.", "Tony Iommi")]),
   E("motorhead", "jimi-hendrix", "Лемми работал роуди у Хендрикса и считал его огромным влиянием.",
-    [S("autobiography", "Lemmy, «White Line Fever»: работа с Хендриксом и его влияние.", "Lemmy Kilmister", 2002)]),
+    [S("autobiography", "Lemmy, «White Line Fever»: работа с Хендриксом и его влияние.", "Lemmy Kilmister", 2002, "https://en.wikipedia.org/wiki/White_Line_Fever_(book)")]),
   E("motorhead", "little-richard", "Лемми называл рок-н-ролл Литла Ричарда корнем своей энергетики.",
     [S("autobiography", "Lemmy, «White Line Fever»: любовь к рок-н-роллу Little Richard.", "Lemmy Kilmister", 2002)]),
   E("motorhead", "the-beatles", "Лемми видел ранних Beatles живьём и считал их жёсткой рок-группой.",
@@ -234,7 +298,7 @@ export const influences = [
   E("metallica", "motorhead", "Скорость и напор Motörhead — прямой предок трэша Metallica.",
     [S("interview", "Lars Ulrich называл Motörhead одним из главных влияний Metallica.", "Lars Ulrich")]),
   E("metallica", "diamond-head", "Metallica записали несколько каверов Diamond Head.",
-    [S("encyclopedia", "Metallica исполняли «Am I Evil?» и др. песни Diamond Head.", "AllMusic")]),
+    [S("encyclopedia", "Metallica исполняли «Am I Evil?» и др. песни Diamond Head.", "AllMusic", null, "https://en.wikipedia.org/wiki/Am_I_Evil%3F")]),
   E("metallica", "black-sabbath", "Тяжесть Black Sabbath — фундамент звука Metallica.",
     [S("interview", "Участники Metallica называли Black Sabbath основой тяжёлой музыки.", "Metallica")]),
   E("metallica", "deep-purple", "Ранний Ларс Ульрих вдохновлялся напором Deep Purple.",
@@ -256,7 +320,7 @@ export const influences = [
 
   // Grunge
   E("nirvana", "pixies", "Кобейн признавал, что «Smells Like Teen Spirit» — попытка написать песню Pixies.",
-    [S("interview", "Kurt Cobain (Rolling Stone, 1994): «Я попросту пытался копировать Pixies».", "Kurt Cobain", 1994)]),
+    [S("interview", "Kurt Cobain (Rolling Stone, 1994): «Я попросту пытался копировать Pixies».", "Kurt Cobain", 1994, "https://en.wikipedia.org/wiki/Smells_Like_Teen_Spirit")]),
   E("nirvana", "the-stooges", "Альбом «Raw Power» Stooges Кобейн называл любимым.",
     [S("interview", "Kurt Cobain ставил «Raw Power» The Stooges на первое место в списке любимых альбомов.", "Kurt Cobain")]),
   E("nirvana", "black-flag", "Хардкор Black Flag — часть панк-фундамента Nirvana.",
@@ -264,7 +328,7 @@ export const influences = [
   E("nirvana", "black-sabbath", "Тяжёлые риффы Nirvana наследуют Black Sabbath.",
     [S("interview", "Участники Nirvana называли Black Sabbath источником тяжести звука.", "Nirvana")]),
   E("nirvana", "lead-belly", "Финал «Unplugged» — кавер «Where Did You Sleep Last Night» Лед Белли.",
-    [S("interview", "Kurt Cobain представил песню как вещь Lead Belly, своего любимого исполнителя.", "Kurt Cobain", 1993)]),
+    [S("interview", "Kurt Cobain представил песню как вещь Lead Belly, своего любимого исполнителя.", "Kurt Cobain", 1993, "https://en.wikipedia.org/wiki/Where_Did_You_Sleep_Last_Night")]),
   E("pixies", "the-stooges", "Громко-тихая динамика Pixies восходит к панк-энергии Stooges.",
     [S("encyclopedia", "Влияние The Stooges на альтернативный рок, включая Pixies.", "AllMusic")]),
 

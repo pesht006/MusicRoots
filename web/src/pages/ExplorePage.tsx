@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import InfluenceGraph from "../components/InfluenceGraph";
 import SearchBox from "../components/SearchBox";
-import { api, years, type ArtistDetail, type Graph } from "../api";
+import Avatar from "../components/Avatar";
+import { api, years, type ArtistDetail, type Graph, type InfluenceLink } from "../api";
 
 const DEFAULT_FOCUS = "metallica";
 
@@ -41,6 +42,34 @@ export default function ExplorePage() {
     (slug: string) => setParams({ focus: slug }, { replace: false }),
     [setParams]
   );
+
+  const linkRow = (r: InfluenceLink) => {
+    const srcUrl = r.sources.find((s) => s.url)?.url;
+    return (
+      <div key={r.influenceId} className="link-item" onClick={() => select(r.artist.slug)}>
+        <div className="ttl">
+          <span className="who">
+            <Avatar name={r.artist.name} image={r.artist.image} size={30} rounded={8} />
+            {r.artist.name}
+          </span>
+          <span className={`pill ${r.confidence}`}>{r.sources.length}</span>
+        </div>
+        <div className="muted" style={{ fontSize: 13, marginTop: 4 }}>{r.description}</div>
+        <div className="row wrap" style={{ gap: 10, marginTop: 6 }}>
+          {srcUrl && (
+            <a className="ext" href={srcUrl} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
+              источник ↗
+            </a>
+          )}
+          {r.artist.wiki && (
+            <a className="ext" href={r.artist.wiki} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()}>
+              Wikipedia ↗
+            </a>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="explore">
@@ -96,41 +125,39 @@ export default function ExplorePage() {
 
       {detail && (
         <aside className="side">
-          <span className="pill type">{detail.type === "band" ? "группа" : "артист"}</span>{" "}
-          {years(detail) && <span className="muted">{years(detail)}</span>}
-          <h2>{detail.name}</h2>
+          <div className="side-head">
+            <Avatar name={detail.name} image={detail.image} size={64} rounded={14} />
+            <div style={{ minWidth: 0 }}>
+              <div className="row wrap" style={{ gap: 6 }}>
+                <span className="pill type">{detail.type === "band" ? "группа" : "артист"}</span>
+                {years(detail) && <span className="muted">{years(detail)}</span>}
+              </div>
+              <h2>{detail.name}</h2>
+            </div>
+          </div>
           <p className="muted" style={{ fontSize: 14 }}>{detail.bio}</p>
-          <button className="btn-sm" onClick={() => nav(`/artist/${detail.slug}`)}>
-            Открыть полную страницу →
-          </button>
+          <div className="row wrap" style={{ gap: 8 }}>
+            <button className="btn-sm" onClick={() => nav(`/artist/${detail.slug}`)}>
+              Открыть полную страницу →
+            </button>
+            {detail.wiki && (
+              <a className="ext" href={detail.wiki} target="_blank" rel="noreferrer">
+                Wikipedia ↗
+              </a>
+            )}
+          </div>
 
           <div className="section-title" style={{ marginTop: 22 }}>
             Корни влияния ({detail.roots.length})
           </div>
           {detail.roots.length === 0 && <p className="muted">Источники пока не добавлены.</p>}
-          {detail.roots.map((r) => (
-            <div key={r.influenceId} className="link-item" onClick={() => select(r.artist.slug)}>
-              <div className="ttl">
-                <span>{r.artist.name}</span>
-                <span className={`pill ${r.confidence}`}>{r.sources.length}</span>
-              </div>
-              <div className="muted" style={{ fontSize: 13 }}>{r.description}</div>
-            </div>
-          ))}
+          {detail.roots.map(linkRow)}
 
           <div className="section-title" style={{ marginTop: 18 }}>
             Повлиял на ({detail.heirs.length})
           </div>
           {detail.heirs.length === 0 && <p className="muted">Связи пока не добавлены.</p>}
-          {detail.heirs.map((r) => (
-            <div key={r.influenceId} className="link-item" onClick={() => select(r.artist.slug)}>
-              <div className="ttl">
-                <span>{r.artist.name}</span>
-                <span className={`pill ${r.confidence}`}>{r.sources.length}</span>
-              </div>
-              <div className="muted" style={{ fontSize: 13 }}>{r.description}</div>
-            </div>
-          ))}
+          {detail.heirs.map(linkRow)}
         </aside>
       )}
     </div>

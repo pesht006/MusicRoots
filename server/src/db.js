@@ -21,6 +21,8 @@ export function initSchema() {
       active_to   INTEGER,
       country     TEXT DEFAULT '',
       tags        TEXT DEFAULT '',
+      image_url   TEXT DEFAULT '',
+      wiki        TEXT DEFAULT '',
       created_at  TEXT NOT NULL DEFAULT (datetime('now'))
     );
 

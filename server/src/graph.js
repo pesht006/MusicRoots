@@ -12,6 +12,8 @@ export function rowToArtist(r) {
     activeTo: r.active_to,
     country: r.country,
     tags: r.tags ? r.tags.split(",").filter(Boolean) : [],
+    image: r.image_url || "",
+    wiki: r.wiki || "",
   };
 }
 

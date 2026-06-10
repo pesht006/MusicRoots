@@ -14,8 +14,8 @@ const reset = db.transaction(() => {
   `);
 
   const insArtist = db.prepare(`
-    INSERT INTO artists (slug, name, type, bio, active_from, active_to, country, tags)
-    VALUES (@slug, @name, @type, @bio, @active_from, @active_to, @country, @tags)
+    INSERT INTO artists (slug, name, type, bio, active_from, active_to, country, tags, image_url, wiki)
+    VALUES (@slug, @name, @type, @bio, @active_from, @active_to, @country, @tags, @image_url, @wiki)
   `);
   const idBySlug = new Map();
   for (const a of artists) {
@@ -28,6 +28,8 @@ const reset = db.transaction(() => {
       active_to: a.active_to ?? null,
       country: a.country ?? "",
       tags: Array.isArray(a.tags) ? a.tags.join(",") : a.tags ?? "",
+      image_url: a.image ?? "",
+      wiki: a.wiki ?? "",
     });
     idBySlug.set(a.slug, info.lastInsertRowid);
   }

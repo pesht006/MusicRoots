@@ -23,6 +23,8 @@ const outArtists = artists.map((a, i) => {
     activeTo: a.active_to ?? null,
     country: a.country ?? "",
     tags: Array.isArray(a.tags) ? a.tags : a.tags ? String(a.tags).split(",") : [],
+    image: a.image ?? "",
+    wiki: a.wiki ?? "",
   };
 });
 
