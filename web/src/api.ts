@@ -1,7 +1,7 @@
 import { staticApi } from "./staticApi";
 
 export type ArtistType = "artist" | "band";
-export type Confidence = "high" | "medium" | "low";
+export type Confidence = "high" | "medium";
 export type SourceType =
   | "interview" | "autobiography" | "encyclopedia"
   | "documentary" | "official" | "other";
@@ -144,7 +144,6 @@ export const SOURCE_LABELS: Record<SourceType, string> = {
 export const CONFIDENCE_LABELS: Record<Confidence, string> = {
   high: "Высокий уровень доверия",
   medium: "Средний уровень доверия",
-  low: "Требует подтверждения",
 };
 
 export function years(a: Pick<Artist, "activeFrom" | "activeTo">): string {

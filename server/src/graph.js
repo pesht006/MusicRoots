@@ -52,11 +52,12 @@ const SOURCE_WEIGHT = {
   interview: 3, autobiography: 3, documentary: 2,
   encyclopedia: 2, official: 2, other: 1,
 };
+// Only two levels are supported: strong corroboration (multiple/primary
+// sources) → "high"; a single sufficient source → "medium". Connections that
+// would be weaker than this are removed from the dataset, not labelled "low".
 export function confidence(sources) {
   const score = sources.reduce((acc, s) => acc + (SOURCE_WEIGHT[s.type] || 1), 0);
-  if (score >= 5) return "high";
-  if (score >= 3) return "medium";
-  return "low";
+  return score >= 4 ? "high" : "medium";
 }
 
 export function getArtistDetail(slug) {

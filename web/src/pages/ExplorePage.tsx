@@ -108,9 +108,8 @@ export default function ExplorePage() {
               <div className="li"><span className="sw" style={{ background: "#6b4eff" }} /> текущий артист</div>
               <div className="li"><span className="sw" style={{ background: "#2f86ff" }} /> наследники</div>
               <div className="lhead" style={{ marginTop: 8 }}>Цвет стрелки = надёжность источника</div>
-              <div className="li"><span className="sw" style={{ background: "#0a9d7d" }} /> высокая</div>
-              <div className="li"><span className="sw" style={{ background: "#c08400" }} /> средняя</div>
-              <div className="li"><span className="sw" style={{ background: "#9aa3b5" }} /> требует подтверждения</div>
+              <div className="li"><span className="sw" style={{ background: "#0a9d7d" }} /> высокая (high)</div>
+              <div className="li"><span className="sw" style={{ background: "#c08400" }} /> средняя (medium)</div>
               <div className="li" style={{ marginTop: 6 }}>стрелка → указывает на источник влияния (корень)</div>
               <div className="li muted">клик — перейти · двойной клик — страница</div>
             </div>

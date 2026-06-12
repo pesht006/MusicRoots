@@ -30,9 +30,7 @@ const SOURCE_WEIGHT: Record<string, number> = {
 };
 function confidence(sources: Source[]): Confidence {
   const score = sources.reduce((a, s) => a + (SOURCE_WEIGHT[s.type] || 1), 0);
-  if (score >= 5) return "high";
-  if (score >= 3) return "medium";
-  return "low";
+  return score >= 4 ? "high" : "medium";
 }
 
 // ---- contributions in localStorage ----
