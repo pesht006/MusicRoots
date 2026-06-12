@@ -1,16 +1,17 @@
 import { useState } from "react";
-import Turnstile from "../components/Turnstile";
-import { SUBMISSIONS_ENABLED, TURNSTILE_SITEKEY, submit } from "../config";
+import Captcha from "../components/Captcha";
+import { CAPTCHA_PROVIDER, SUBMISSIONS_ENABLED, submit } from "../config";
 
 type State = "idle" | "sending" | "ok" | "dedup" | "error";
 
 export default function SuggestPage() {
   const [name, setName] = useState("");
   const [token, setToken] = useState("");
+  const [attempt, setAttempt] = useState(0);
   const [state, setState] = useState<State>("idle");
   const [msg, setMsg] = useState("");
 
-  const needsCaptcha = Boolean(TURNSTILE_SITEKEY);
+  const needsCaptcha = CAPTCHA_PROVIDER !== "none";
   const canSend =
     SUBMISSIONS_ENABLED && name.trim().length >= 2 && (!needsCaptcha || token) && state !== "sending";
 
@@ -30,6 +31,10 @@ export default function SuggestPage() {
     } catch (e) {
       setState("error");
       setMsg((e as Error).message);
+    } finally {
+      // Captcha tokens are single-use — reset the widget for the next attempt.
+      setToken("");
+      setAttempt((a) => a + 1);
     }
   };
 
@@ -63,9 +68,7 @@ export default function SuggestPage() {
           }}
         />
 
-        {SUBMISSIONS_ENABLED && (
-          <Turnstile sitekey={TURNSTILE_SITEKEY} onToken={setToken} />
-        )}
+        {SUBMISSIONS_ENABLED && <Captcha key={attempt} onToken={setToken} />}
 
         <div className="row" style={{ marginTop: 16 }}>
           <button className="btn-primary" disabled={!canSend} onClick={send}>

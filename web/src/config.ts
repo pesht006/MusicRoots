@@ -1,8 +1,16 @@
 // Endpoint of the Cloudflare submissions Worker (no trailing slash) and the
-// public Turnstile site key. Both are injected at build time; until they are
-// configured the submission forms show a friendly "not yet wired" notice.
+// public captcha site key. Injected at build time; until configured the
+// submission forms show a friendly "not yet wired" notice.
 export const SUBMIT_URL = (import.meta.env.VITE_SUBMIT_URL || "").replace(/\/$/, "");
-export const TURNSTILE_SITEKEY = import.meta.env.VITE_TURNSTILE_SITEKEY || "";
+
+const HCAPTCHA_SITEKEY = import.meta.env.VITE_HCAPTCHA_SITEKEY || "";
+const TURNSTILE_SITEKEY = import.meta.env.VITE_TURNSTILE_SITEKEY || "";
+
+// hCaptcha (visible image/"mosaic" challenge) takes precedence if configured.
+export const CAPTCHA_PROVIDER: "hcaptcha" | "turnstile" | "none" =
+  HCAPTCHA_SITEKEY ? "hcaptcha" : TURNSTILE_SITEKEY ? "turnstile" : "none";
+export const CAPTCHA_SITEKEY = HCAPTCHA_SITEKEY || TURNSTILE_SITEKEY || "";
+
 export const SUBMISSIONS_ENABLED = Boolean(SUBMIT_URL);
 
 export async function submit(payload: {

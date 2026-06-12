@@ -39,6 +39,7 @@ jobs:
           # after deploying the Cloudflare Worker (see worker/README.md).
           VITE_SUBMIT_URL: ${{ vars.SUBMIT_URL }}
           VITE_TURNSTILE_SITEKEY: ${{ vars.TURNSTILE_SITEKEY }}
+          VITE_HCAPTCHA_SITEKEY: ${{ vars.HCAPTCHA_SITEKEY }}
         run: npm run build:static
 
       # Publish the built site to the gh-pages branch. This avoids the

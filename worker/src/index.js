@@ -12,6 +12,7 @@
 
 const TURNSTILE_VERIFY =
   "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+const HCAPTCHA_VERIFY = "https://api.hcaptcha.com/siteverify";
 const KEEP_TTL = 60 * 60 * 24 * 45; // keep daily data ~45 days
 
 function corsHeaders(origin) {
@@ -34,20 +35,32 @@ function todayUTC() {
   return new Date().toISOString().slice(0, 10);
 }
 
-async function verifyTurnstile(secret, token, ip) {
-  // If no secret configured (e.g. local/demo), skip verification.
-  if (!secret) return true;
-  const form = new FormData();
+async function verifyAt(url, secret, token) {
+  // x-www-form-urlencoded is accepted by both Turnstile and hCaptcha and is
+  // more reliable in Workers than multipart. remoteip is intentionally omitted
+  // (behind the CDN it can mismatch and cause spurious failures).
+  const form = new URLSearchParams();
   form.append("secret", secret);
   form.append("response", token || "");
-  if (ip) form.append("remoteip", ip);
   try {
-    const r = await fetch(TURNSTILE_VERIFY, { method: "POST", body: form });
+    const r = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: form.toString(),
+    });
     const j = await r.json();
-    return j.success === true;
+    return { ok: j.success === true, codes: j["error-codes"] || [] };
   } catch {
-    return false;
+    return { ok: false, codes: ["verify-request-failed"] };
   }
+}
+
+// Auto-detect captcha provider by which secret is configured. hCaptcha (a
+// visible image/"mosaic" challenge) takes precedence over Turnstile.
+async function verifyCaptcha(env, token) {
+  if (env.HCAPTCHA_SECRET) return verifyAt(HCAPTCHA_VERIFY, env.HCAPTCHA_SECRET, token);
+  if (env.TURNSTILE_SECRET) return verifyAt(TURNSTILE_VERIFY, env.TURNSTILE_SECRET, token);
+  return { ok: true, codes: [] }; // no captcha configured (local/dev)
 }
 
 export default {
@@ -80,9 +93,11 @@ export default {
         return json({ error: "Заполните поле корректно" }, 400, baseHeaders);
       }
 
-      const ip = request.headers.get("CF-Connecting-IP");
-      const ok = await verifyTurnstile(env.TURNSTILE_SECRET, body.token, ip);
-      if (!ok) return json({ error: "Капча не пройдена" }, 403, baseHeaders);
+      const v = await verifyCaptcha(env, body.token);
+      if (!v.ok) {
+        // codes help diagnose (invalid-input-secret / -response, timeout-or-duplicate…)
+        return json({ error: "Капча не пройдена", codes: v.codes }, 403, baseHeaders);
+      }
 
       const day = todayUTC();
       const limit = parseInt(env.DAILY_LIMIT || "500", 10);
