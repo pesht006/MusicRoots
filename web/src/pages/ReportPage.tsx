@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import Captcha from "../components/Captcha";
+import Captcha, { type CaptchaHandle } from "../components/Captcha";
 import { CAPTCHA_PROVIDER, SUBMISSIONS_ENABLED, submit } from "../config";
 
 type State = "idle" | "sending" | "ok" | "error";
@@ -10,7 +10,7 @@ export default function ReportPage() {
   const [artist, setArtist] = useState(sp.get("artist") || "");
   const [message, setMessage] = useState("");
   const [token, setToken] = useState("");
-  const [attempt, setAttempt] = useState(0);
+  const captchaRef = useRef<CaptchaHandle>(null);
   const [state, setState] = useState<State>("idle");
   const [msg, setMsg] = useState("");
 
@@ -30,8 +30,7 @@ export default function ReportPage() {
       setState("error");
       setMsg((e as Error).message);
     } finally {
-      setToken("");
-      setAttempt((a) => a + 1);
+      captchaRef.current?.reset();
     }
   };
 
@@ -72,7 +71,7 @@ export default function ReportPage() {
           onChange={(e) => setMessage(e.target.value)}
         />
 
-        {SUBMISSIONS_ENABLED && <Captcha key={attempt} onToken={setToken} />}
+        {SUBMISSIONS_ENABLED && <Captcha ref={captchaRef} onToken={setToken} />}
 
         <div className="row" style={{ marginTop: 16 }}>
           <button className="btn-primary" disabled={!canSend} onClick={send}>

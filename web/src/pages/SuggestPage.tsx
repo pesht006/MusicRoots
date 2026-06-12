@@ -1,5 +1,5 @@
-import { useState } from "react";
-import Captcha from "../components/Captcha";
+import { useRef, useState } from "react";
+import Captcha, { type CaptchaHandle } from "../components/Captcha";
 import { CAPTCHA_PROVIDER, SUBMISSIONS_ENABLED, submit } from "../config";
 
 type State = "idle" | "sending" | "ok" | "dedup" | "error";
@@ -7,7 +7,7 @@ type State = "idle" | "sending" | "ok" | "dedup" | "error";
 export default function SuggestPage() {
   const [name, setName] = useState("");
   const [token, setToken] = useState("");
-  const [attempt, setAttempt] = useState(0);
+  const captchaRef = useRef<CaptchaHandle>(null);
   const [state, setState] = useState<State>("idle");
   const [msg, setMsg] = useState("");
 
@@ -33,8 +33,7 @@ export default function SuggestPage() {
       setMsg((e as Error).message);
     } finally {
       // Captcha tokens are single-use — reset the widget for the next attempt.
-      setToken("");
-      setAttempt((a) => a + 1);
+      captchaRef.current?.reset();
     }
   };
 
@@ -68,7 +67,7 @@ export default function SuggestPage() {
           }}
         />
 
-        {SUBMISSIONS_ENABLED && <Captcha key={attempt} onToken={setToken} />}
+        {SUBMISSIONS_ENABLED && <Captcha ref={captchaRef} onToken={setToken} />}
 
         <div className="row" style={{ marginTop: 16 }}>
           <button className="btn-primary" disabled={!canSend} onClick={send}>

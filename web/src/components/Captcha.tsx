@@ -1,11 +1,21 @@
-import { useEffect, useRef } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { CAPTCHA_PROVIDER, CAPTCHA_SITEKEY } from "../config";
+
+type WidgetApi = {
+  render: (el: HTMLElement, o: Record<string, unknown>) => string;
+  reset: (id?: string) => void;
+  remove: (id?: string) => void;
+};
 
 declare global {
   interface Window {
-    turnstile?: { render: (el: HTMLElement, o: Record<string, unknown>) => string };
-    hcaptcha?: { render: (el: HTMLElement, o: Record<string, unknown>) => string };
+    turnstile?: WidgetApi;
+    hcaptcha?: WidgetApi;
   }
+}
+
+export interface CaptchaHandle {
+  reset: () => void;
 }
 
 const SCRIPTS: Record<string, string> = {
@@ -14,56 +24,99 @@ const SCRIPTS: Record<string, string> = {
 };
 const scriptStarted: Record<string, boolean> = {};
 
-// Renders the configured captcha (hCaptcha shows an image/"mosaic" challenge;
-// Turnstile is the lightweight Cloudflare widget) and reports the token.
-// Remount the component (change its `key`) to get a fresh, single-use token.
-export default function Captcha({ onToken }: { onToken: (token: string) => void }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const rendered = useRef(false);
+function apiOf(): WidgetApi | undefined {
+  return CAPTCHA_PROVIDER === "hcaptcha" ? window.hcaptcha : window.turnstile;
+}
 
-  useEffect(() => {
-    const provider = CAPTCHA_PROVIDER;
-    if (provider === "none" || !CAPTCHA_SITEKEY) return;
-    let cancelled = false;
-    const apiOf = () => (provider === "hcaptcha" ? window.hcaptcha : window.turnstile);
+// Captcha with a correct widget lifecycle:
+//  - renders exactly once per mount (empty effect deps; latest onToken via ref),
+//  - stores the widgetId returned by render(),
+//  - remove()s the widget on unmount (prevents orphaned widgets and the
+//    "Cannot find Widget" / postMessage-origin errors),
+//  - exposes reset() so the form can refresh the single-use token WITHOUT
+//    remounting the component.
+const Captcha = forwardRef<CaptchaHandle, { onToken: (token: string) => void }>(
+  function Captcha({ onToken }, ref) {
+    const container = useRef<HTMLDivElement>(null);
+    const widgetId = useRef<string | null>(null);
+    const onTokenRef = useRef(onToken);
+    onTokenRef.current = onToken;
 
-    const tryRender = () => {
-      if (cancelled || rendered.current || !ref.current) return false;
-      const api = apiOf();
-      if (!api) return false;
-      api.render(ref.current, {
-        sitekey: CAPTCHA_SITEKEY,
-        callback: (token: string) => onToken(token),
-        "error-callback": () => onToken(""),
-        "expired-callback": () => onToken(""),
-      });
-      rendered.current = true;
-      return true;
-    };
+    useImperativeHandle(
+      ref,
+      () => ({
+        reset() {
+          const api = apiOf();
+          if (api && widgetId.current != null) {
+            try {
+              api.reset(widgetId.current);
+            } catch {
+              /* widget may be gone; ignore */
+            }
+          }
+          onTokenRef.current("");
+        },
+      }),
+      []
+    );
 
-    if (!scriptStarted[provider]) {
-      scriptStarted[provider] = true;
-      const s = document.createElement("script");
-      s.src = SCRIPTS[provider];
-      s.async = true;
-      s.defer = true;
-      document.head.appendChild(s);
-    }
+    useEffect(() => {
+      if (CAPTCHA_PROVIDER === "none" || !CAPTCHA_SITEKEY) return;
+      const provider = CAPTCHA_PROVIDER;
+      let cancelled = false;
+      let iv: number | undefined;
 
-    if (!tryRender()) {
-      const iv = setInterval(() => {
-        if (tryRender()) clearInterval(iv);
-      }, 200);
+      const tryRender = () => {
+        if (cancelled || widgetId.current != null || !container.current) return false;
+        const api = apiOf();
+        if (!api || typeof api.render !== "function") return false;
+        try {
+          widgetId.current = api.render(container.current, {
+            sitekey: CAPTCHA_SITEKEY,
+            callback: (token: string) => onTokenRef.current(token),
+            "error-callback": () => onTokenRef.current(""),
+            "expired-callback": () => onTokenRef.current(""),
+            "timeout-callback": () => onTokenRef.current(""),
+          });
+        } catch {
+          return false;
+        }
+        return true;
+      };
+
+      if (!scriptStarted[provider]) {
+        scriptStarted[provider] = true;
+        const s = document.createElement("script");
+        s.src = SCRIPTS[provider];
+        s.async = true;
+        s.defer = true;
+        document.head.appendChild(s);
+      }
+
+      if (!tryRender()) {
+        iv = window.setInterval(() => {
+          if (tryRender() && iv) window.clearInterval(iv);
+        }, 200);
+      }
+
       return () => {
         cancelled = true;
-        clearInterval(iv);
+        if (iv) window.clearInterval(iv);
+        const api = apiOf();
+        if (api && widgetId.current != null) {
+          try {
+            api.remove(widgetId.current);
+          } catch {
+            /* ignore */
+          }
+        }
+        widgetId.current = null;
       };
-    }
-    return () => {
-      cancelled = true;
-    };
-  }, [onToken]);
+    }, []);
 
-  if (CAPTCHA_PROVIDER === "none") return null;
-  return <div ref={ref} className="captcha" style={{ marginTop: 12 }} />;
-}
+    if (CAPTCHA_PROVIDER === "none") return null;
+    return <div ref={container} className="captcha" style={{ marginTop: 12 }} />;
+  }
+);
+
+export default Captcha;
