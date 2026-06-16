@@ -91,13 +91,16 @@ export default function InfluenceGraph({
     setGrabbing(true);
   };
   const onMouseMove = (e: React.MouseEvent) => {
-    if (!drag.current) return;
-    setT((prev) => ({
-      ...prev,
-      x: drag.current!.tx + (e.clientX - drag.current!.x),
-      y: drag.current!.ty + (e.clientY - drag.current!.y),
-    }));
-  };
+const d = drag.current;
+if (!d) return;
+
+setT((prev) => ({
+...prev,
+x: d.tx + (e.clientX - d.x),
+y: d.ty + (e.clientY - d.y),
+}));
+};
+
   const endDrag = () => {
     drag.current = null;
     setGrabbing(false);
