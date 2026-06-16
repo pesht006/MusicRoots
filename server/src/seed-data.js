@@ -48,7 +48,7 @@ export const artists = [
   { slug: "little-richard", name: "Little Richard", type: "artist", country: "США",
     active_from: 1951, active_to: 2020, tags: ["rock-and-roll"],
     bio: "«Архитектор рок-н-ролла», взрывной вокал и фортепиано которого задали энергию жанра." },
-  { slug: "elvis-presley", name: "Элвис Пресли", type: "artist", country: "США",
+  { slug: "elvis-presley", name: "Elvis Presley", type: "artist", country: "США",
     active_from: 1954, active_to: 1977, tags: ["rock-and-roll"],
     bio: "«Король рок-н-ролла», вынесший ритм-энд-блюз в мейнстрим." },
   { slug: "buddy-holly", name: "Buddy Holly", type: "artist", country: "США",
