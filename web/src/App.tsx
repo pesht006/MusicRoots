@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, Route, Routes } from "react-router-dom";
-import { api, IS_STATIC, type Stats } from "./api";
+import { api, type Stats } from "./api";
 import HomePage from "./pages/HomePage";
 import ExplorePage from "./pages/ExplorePage";
 import ArtistPage from "./pages/ArtistPage";
