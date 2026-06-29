@@ -60,7 +60,7 @@ export default function HomePage({ stats }: { stats: Stats | null }) {
         )}
       </div>
 
-      <div className="grid" style={{ gridTemplateColumns: "repeat(3, 1fr)", marginTop: 30 }}>
+      <div className="grid cards-auto" style={{ marginTop: 30 }}>
         <div className="card">
           <h3 style={{ marginTop: 0 }}>Древо в центре</h3>
           <p className="muted">

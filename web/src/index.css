@@ -229,3 +229,46 @@ label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 6px
   padding: 12px 18px; border-radius: 12px; box-shadow: var(--shadow); z-index: 100;
 }
 .spin { color: var(--muted); padding: 40px; text-align: center; }
+
+/* Responsive feature cards (replaces inline 3-column grid). */
+.cards-auto { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+
+/* ============================================================
+   Mobile / responsive layout
+   ============================================================ */
+@media (max-width: 860px) {
+  .nav { gap: 8px 12px; padding: 10px 14px; flex-wrap: wrap; }
+  .nav .links { margin-left: 0; gap: 2px; flex-wrap: wrap; order: 3; width: 100%; }
+  .nav .links a { padding: 7px 10px; font-size: 13px; }
+  .nav .spacer { display: none; }
+  .badge { margin-left: auto; }
+  .brand { font-size: 16px; }
+
+  .page { padding: 20px 16px; }
+  .hero { padding: 34px 0 18px; }
+  .hero p { font-size: 16px; }
+
+  /* Explore: stack the graph above the artist panel and let the page scroll. */
+  .explore { flex-direction: column; height: auto; }
+  .explore > div:first-child { flex: none; }
+  .graph-wrap { flex: none; height: 60vh; min-height: 320px; }
+  .side {
+    width: 100%; border-left: none; border-top: 1px solid var(--border);
+    max-height: none; padding: 18px 16px;
+  }
+  .controls { max-width: 230px; padding: 10px 12px; top: 10px; left: 10px; gap: 8px; }
+  .controls .ctitle { font-size: 14px; }
+  .legend { font-size: 11px; }
+  .edge-tip { max-width: 240px; font-size: 12px; }
+}
+
+@media (max-width: 440px) {
+  .nav .links a { padding: 6px 8px; font-size: 12px; }
+  .badge { font-size: 11px; padding: 4px 8px; }
+  .page { padding: 16px 12px; }
+  .controls { max-width: 190px; }
+  .stat-row { gap: 12px; }
+  .stat .num { font-size: 26px; }
+  .chain-demo { gap: 6px; }
+  .chain-demo .node { padding: 6px 10px; font-size: 13px; }
+}

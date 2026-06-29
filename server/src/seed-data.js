@@ -238,6 +238,18 @@ const imageMap = {
   "black-flag": "https://upload.wikimedia.org/wikipedia/commons/7/79/Black_Flag_performing_at_the_Electric_Ballroom_Camden_2019_%28cropped%29.jpg",
   "nirvana": "https://upload.wikimedia.org/wikipedia/commons/2/2e/Nirvana_around_1992_%28high_quality%29_%28cropped%29.jpg",
   "stevie-ray-vaughan": "https://upload.wikimedia.org/wikipedia/commons/4/43/Stevie_Ray_Vaughan_Live_1983.jpg",
+  // Free / public-domain portraits via Wikimedia's hash-free FilePath endpoint
+  // (small thumbnails for avatars). Any that fail to resolve fall back to initials.
+  "louis-armstrong": "https://commons.wikimedia.org/wiki/Special:FilePath/Louis_Armstrong_restored.jpg?width=200",
+  "duke-ellington": "https://commons.wikimedia.org/wiki/Special:FilePath/Duke_Ellington_-_publicity.JPG?width=200",
+  "king-oliver": "https://commons.wikimedia.org/wiki/Special:FilePath/King_Oliver.jpg?width=200",
+  "django-reinhardt": "https://commons.wikimedia.org/wiki/Special:FilePath/Django_Reinhardt_%28Gottlieb%29.jpg?width=200",
+  "nina-simone": "https://commons.wikimedia.org/wiki/Special:FilePath/Nina_Simone_1965.jpg?width=200",
+  "james-brown": "https://commons.wikimedia.org/wiki/Special:FilePath/James_Brown_Live_Hamburg_1973_1702730029.jpg?width=200",
+  "michael-jackson": "https://commons.wikimedia.org/wiki/Special:FilePath/Michael_Jackson_1984.jpg?width=200",
+  "bob-marley": "https://commons.wikimedia.org/wiki/Special:FilePath/Bob-Marley-in-Concert_Zurich_05-30-80.jpg?width=200",
+  "david-bowie": "https://commons.wikimedia.org/wiki/Special:FilePath/David-Bowie_Chicago_2002-08-08_photoby_Adam-Bielawski.jpg?width=200",
+  "kraftwerk": "https://commons.wikimedia.org/wiki/Special:FilePath/Kraftwerk_in_Stockholm_2.jpg?width=200",
 };
 
 // Wikipedia article (English) per artist — a reference link shown in the UI.
