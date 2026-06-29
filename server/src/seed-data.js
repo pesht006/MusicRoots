@@ -122,6 +122,9 @@ export const artists = [
     bio: "Гитарист, возродивший интерес к блюзу в 1980-х." },
 
   // --- Avant-garde / art-rock / electronic / industrial cluster ---
+  { slug: "fannie-charles-dillon", name: "Fannie Charles Dillon", type: "artist", country: "USA",
+    active_from: 1910, active_to: 1947, tags: ["classical", "experimental"],
+    bio: "American composer, pianist and educator known for transcribing bird calls into musical scores. Taught at Los Angeles High School where John Cage was among her students in the late 1920s." },
   { slug: "john-cage", name: "John Cage", type: "artist", country: "USA",
     active_from: 1938, active_to: 1992, tags: ["avant-garde", "experimental", "classical"],
     bio: "American composer whose prepared piano, chance operations (aleatoric music) and 4'33\" redefined the boundaries of music — a foundational figure for every strand of experimental and electronic art." },
@@ -254,6 +257,7 @@ const imageMap = {
   "david-bowie": "https://commons.wikimedia.org/wiki/Special:FilePath/David-Bowie_Chicago_2002-08-08_photoby_Adam-Bielawski.jpg?width=200",
   "kraftwerk": "https://commons.wikimedia.org/wiki/Special:FilePath/Kraftwerk_in_Stockholm_2.jpg?width=200",
   "john-cage": "https://commons.wikimedia.org/wiki/Special:FilePath/John_Cage_%281988%29_by_Ralph_Burgess.jpg?width=200",
+  "fannie-charles-dillon": "https://commons.wikimedia.org/wiki/Special:FilePath/Fannie_Charles_Dillon_in_1915.jpg?width=200",
 };
 
 // Wikipedia article (English) per artist — a reference link shown in the UI.
@@ -286,6 +290,7 @@ const wikiTitles = {
   "michael-jackson": "Michael Jackson", "bob-marley": "Bob Marley",
   "queen": "Queen (band)",
   "john-cage": "John Cage",
+  "fannie-charles-dillon": "Fannie Charles Dillon",
 };
 
 for (const a of artists) {
@@ -560,6 +565,10 @@ export const influences = [
 
   // --- Avant-garde / art-rock / electronic / industrial cluster ---
   // John Cage cluster
+  E("john-cage", "fannie-charles-dillon", "Dillon was Cage's music teacher at Los Angeles High School in the late 1920s; her practice of transcribing bird calls into scores planted the seed for Cage's lifelong interest in incorporating natural and environmental sounds into music.",
+    [S("encyclopedia", "Wikipedia / UCLA Library: Fannie Charles Dillon taught at LA High School in the late 1920s and John Cage was among her students.", "Wikipedia", null, "https://en.wikipedia.org/wiki/Fannie_Charles_Dillon"),
+     S("encyclopedia", "David Patterson, 'The Picture That Is Not in the Colors': Cage's early music education in Los Angeles is documented, including study with Dillon before his work with Cowell and Schoenberg.", "Grove Music")]),
+
   E("karlheinz-stockhausen", "john-cage", "Cage's Darmstadt lectures and aleatoric methods directly triggered Stockhausen's use of chance in 'Klavierstück XI' and subsequent works.",
     [S("encyclopedia", "Grove Music: Cage's 1958 Darmstadt lectures were a pivotal encounter for Stockhausen and redirected his approach to indeterminacy.", "Grove Music", 1958),
      S("interview", "Stockhausen acknowledged Cage's aleatoric ideas as a key catalyst for his own compositional experiments with chance operations.", "Karlheinz Stockhausen")]),
