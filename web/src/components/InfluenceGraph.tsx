@@ -6,10 +6,11 @@ const ROW_H = 84;
 const NODE_W = 168;
 const NODE_H = 50;
 
+// Only published confidence levels are rendered. Weak ("low") links are
+// filtered out upstream and have no edge colour / arrow marker (see CONCEPT §6).
 const CONF_COLOR: Record<string, string> = {
   high: "#0a9d7d",
   medium: "#c08400",
-  low: "#9aa3b5",
 };
 
 interface Positioned extends GraphNode {

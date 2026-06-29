@@ -64,7 +64,9 @@ export function getArtistDetail(slug) {
   if (!row) return null;
   const artist = rowToArtist(row);
 
-  const roots = rootsOf.all(row.id).map((r) => {
+  // Weak links (confidence "low") are not published: excluded from the tree,
+  // artist pages and the graph (see CONCEPT §6).
+  const linkOf = (r) => {
     const sources = sourcesForInfluence(r.influence_id);
     return {
       influenceId: r.influence_id,
@@ -73,18 +75,9 @@ export function getArtistDetail(slug) {
       sources,
       artist: rowToArtist(r),
     };
-  });
-
-  const heirs = heirsOf.all(row.id).map((r) => {
-    const sources = sourcesForInfluence(r.influence_id);
-    return {
-      influenceId: r.influence_id,
-      description: r.description,
-      confidence: confidence(sources),
-      sources,
-      artist: rowToArtist(r),
-    };
-  });
+  };
+  const roots = rootsOf.all(row.id).map(linkOf).filter((l) => l.confidence !== "low");
+  const heirs = heirsOf.all(row.id).map(linkOf).filter((l) => l.confidence !== "low");
 
   return { ...artist, roots, heirs };
 }
@@ -130,6 +123,7 @@ export function getSubgraph(focusSlug, depth = 2) {
     const next = [];
     for (const id of frontier) {
       for (const r of rootsOf.all(id)) {
+        if (confidence(sourcesForInfluence(r.influence_id)) === "low") continue;
         addNode(r, -d);
         addEdge(id, r.id, r.influence_id, r.description);
         next.push(r.id);
@@ -144,6 +138,7 @@ export function getSubgraph(focusSlug, depth = 2) {
     const next = [];
     for (const id of frontier) {
       for (const r of heirsOf.all(id)) {
+        if (confidence(sourcesForInfluence(r.influence_id)) === "low") continue;
         addNode(r, d);
         addEdge(r.id, id, r.influence_id, r.description);
         next.push(r.id);
