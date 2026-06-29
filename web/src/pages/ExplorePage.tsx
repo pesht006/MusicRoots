@@ -16,6 +16,7 @@ export default function ExplorePage() {
   const [detail, setDetail] = useState<ArtistDetail | null>(null);
   const [trail, setTrail] = useState<{ slug: string; name: string }[]>([]);
   const [error, setError] = useState("");
+  const [controlsOpen, setControlsOpen] = useState(true);
 
   useEffect(() => {
     let active = true;
@@ -92,29 +93,42 @@ export default function ExplorePage() {
 
         <div className="graph-wrap" style={{ position: "relative", flex: 1 }}>
           <div className="controls">
-            <div className="ctitle">Древо влияний</div>
-            <SearchBox placeholder="Перейти к артисту…" onPick={(a) => select(a.slug)} />
-            <label style={{ margin: "4px 0 0" }}>Глубина: {depth} уровня</label>
-            <input
-              type="range"
-              min={1}
-              max={4}
-              value={depth}
-              onChange={(e) => setDepth(Number(e.target.value))}
-            />
-            <div className="legend">
-              <div className="li"><span className="sw" style={{ background: "#ff8a3d" }} /> корни влияния (предки)</div>
-              <div className="li"><span className="sw" style={{ background: "#7c5cff" }} /> текущий артист</div>
-              <div className="li"><span className="sw" style={{ background: "#4aa8ff" }} /> наследники</div>
-              <div className="li" style={{ marginTop: 4 }}>стрелка → указывает на источник влияния</div>
-              <div className="li muted">клик — перейти · двойной клик — открыть страницу</div>
+            <div className="ctitle-row">
+              <span className="ctitle">Древо влияний</span>
+              <button
+                className="controls-toggle"
+                onClick={() => setControlsOpen((o) => !o)}
+                aria-label={controlsOpen ? "Скрыть панель" : "Показать панель"}
+              >
+                {controlsOpen ? "▲" : "▼"}
+              </button>
             </div>
-            <div className="legend" style={{ borderTop: "1px solid var(--border)", paddingTop: 8 }}>
-              <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted)", marginBottom: 2 }}>ДОСТОВЕРНОСТЬ СВЯЗИ</div>
-              <div className="li"><span className="sw" style={{ background: "#0a9d7d", borderRadius: 2 }} /> высокая (high)</div>
-              <div className="li"><span className="sw" style={{ background: "#c08400", borderRadius: 2 }} /> средняя (medium)</div>
-              <div className="li" style={{ opacity: 0.5 }}><span className="sw" style={{ background: "#9aa3b5", borderRadius: 2, border: "1px dashed #9aa3b5" }} /> слабая — не отображается</div>
-            </div>
+            {controlsOpen && (
+              <>
+                <SearchBox placeholder="Перейти к артисту…" onPick={(a) => select(a.slug)} />
+                <label style={{ margin: "4px 0 0" }}>Глубина: {depth} уровня</label>
+                <input
+                  type="range"
+                  min={1}
+                  max={4}
+                  value={depth}
+                  onChange={(e) => setDepth(Number(e.target.value))}
+                />
+                <div className="legend">
+                  <div className="li"><span className="sw" style={{ background: "#ff8a3d" }} /> корни влияния (предки)</div>
+                  <div className="li"><span className="sw" style={{ background: "#7c5cff" }} /> текущий артист</div>
+                  <div className="li"><span className="sw" style={{ background: "#4aa8ff" }} /> наследники</div>
+                  <div className="li" style={{ marginTop: 4 }}>стрелка → указывает на источник влияния</div>
+                  <div className="li muted">клик — перейти · двойной клик — открыть страницу</div>
+                </div>
+                <div className="legend" style={{ borderTop: "1px solid var(--border)", paddingTop: 8 }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted)", marginBottom: 2 }}>ДОСТОВЕРНОСТЬ СВЯЗИ</div>
+                  <div className="li"><span className="sw" style={{ background: "#0a9d7d", borderRadius: 2 }} /> высокая (high)</div>
+                  <div className="li"><span className="sw" style={{ background: "#c08400", borderRadius: 2 }} /> средняя (medium)</div>
+                  <div className="li" style={{ opacity: 0.5 }}><span className="sw" style={{ background: "#9aa3b5", borderRadius: 2, border: "1px dashed #9aa3b5" }} /> слабая — не отображается</div>
+                </div>
+              </>
+            )}
           </div>
 
           {error && <div className="empty">Не удалось загрузить древо: {error}</div>}

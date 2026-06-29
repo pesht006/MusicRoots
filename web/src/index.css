@@ -176,6 +176,13 @@ label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 6px
   box-shadow: var(--shadow);
 }
 .controls .ctitle { font-weight: 800; font-size: 15px; }
+.ctitle-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.controls-toggle {
+  background: none; border: none; padding: 2px 6px; font-size: 11px;
+  color: var(--muted); cursor: pointer; border-radius: 6px; line-height: 1;
+  flex: none;
+}
+.controls-toggle:hover { background: var(--panel-2); color: var(--text); border: none; }
 .legend { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--muted); }
 .legend .li { display: flex; align-items: center; gap: 8px; }
 .legend .sw { width: 14px; height: 14px; border-radius: 4px; }
