@@ -4,18 +4,21 @@ on:
   push:
     branches:
       - main
-      - cursor/music-influence-tree-4279
   workflow_dispatch:
 
+# Permissions required by the official GitHub Pages deployment.
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
 
+# Allow only one concurrent deployment; let an in-progress run finish.
 concurrency:
-  group: pages-deploy
-  cancel-in-progress: true
+  group: pages
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -41,13 +44,23 @@ jobs:
           VITE_TURNSTILE_SITEKEY: ${{ vars.TURNSTILE_SITEKEY }}
         run: npm run build:static
 
-      # Publish the built site to the gh-pages branch. This avoids the
-      # environment branch restrictions of the official Pages deploy action,
-      # so it works when run from a feature branch.
-      - name: Publish to gh-pages
-        uses: peaceiris/actions-gh-pages@v4
+      # Configure Pages for the "GitHub Actions" build type (enables it / switches
+      # the source automatically when the token has pages:write).
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: web/dist
-          publish_branch: gh-pages
-          force_orphan: true
+          path: web/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
