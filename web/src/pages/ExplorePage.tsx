@@ -109,6 +109,12 @@ export default function ExplorePage() {
               <div className="li" style={{ marginTop: 4 }}>стрелка → указывает на источник влияния</div>
               <div className="li muted">клик — перейти · двойной клик — открыть страницу</div>
             </div>
+            <div className="legend" style={{ borderTop: "1px solid var(--border)", paddingTop: 8 }}>
+              <div style={{ fontSize: 11, fontWeight: 700, color: "var(--muted)", marginBottom: 2 }}>ДОСТОВЕРНОСТЬ СВЯЗИ</div>
+              <div className="li"><span className="sw" style={{ background: "#0a9d7d", borderRadius: 2 }} /> высокая (high)</div>
+              <div className="li"><span className="sw" style={{ background: "#c08400", borderRadius: 2 }} /> средняя (medium)</div>
+              <div className="li" style={{ opacity: 0.5 }}><span className="sw" style={{ background: "#9aa3b5", borderRadius: 2, border: "1px dashed #9aa3b5" }} /> слабая — не отображается</div>
+            </div>
           </div>
 
           {error && <div className="empty">Не удалось загрузить древо: {error}</div>}

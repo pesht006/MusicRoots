@@ -183,6 +183,19 @@ export const artists = [
     active_from: 1963, active_to: 1981, tags: ["reggae"],
     bio: "The face of reggae worldwide, who fused Jamaican roots music with soul and Rastafari spirituality to reach audiences across generations." },
 
+  // --- Krautrock / electronic ---
+  { slug: "kraftwerk", name: "Kraftwerk", type: "band", country: "Germany",
+    active_from: 1969, active_to: null, tags: ["electronic", "krautrock"],
+    bio: "Düsseldorf synthesizer pioneers who invented the template for electronic pop, influencing virtually every strand of modern electronic music." },
+
+  // --- Post-punk / new wave ---
+  { slug: "joy-division", name: "Joy Division", type: "band", country: "United Kingdom",
+    active_from: 1976, active_to: 1980, tags: ["post-punk", "gothic-rock"],
+    bio: "Mancunian post-punk band whose bleak atmosphere and Ian Curtis's commanding presence defined the sound of late-1970s alternative music." },
+  { slug: "new-order", name: "New Order", type: "band", country: "United Kingdom",
+    active_from: 1980, active_to: null, tags: ["new-wave", "electronic"],
+    bio: "Formed from the ashes of Joy Division, New Order fused post-punk with electronic dance music, pioneering the bridge between indie and club culture." },
+
   // --- Glam / classic rock ---
   { slug: "queen", name: "Queen", type: "band", country: "United Kingdom",
     active_from: 1970, active_to: null, tags: ["rock", "glam-rock", "art-rock"],
@@ -249,6 +262,7 @@ const wikiTitles = {
   "the-velvet-underground": "The Velvet Underground", "david-bowie": "David Bowie",
   "brian-eno": "Brian Eno", "kate-bush": "Kate Bush",
   "cabaret-voltaire": "Cabaret Voltaire", "genesis-p-orridge": "Genesis P-Orridge",
+  "kraftwerk": "Kraftwerk", "joy-division": "Joy Division", "new-order": "New Order",
   "king-oliver": "King Oliver", "duke-ellington": "Duke Ellington",
   "louis-armstrong": "Louis Armstrong", "django-reinhardt": "Django Reinhardt",
   "jackie-wilson": "Jackie Wilson", "james-brown": "James Brown",
@@ -485,6 +499,47 @@ export const influences = [
   E("queen", "jimi-hendrix", "Brian May built his guitar vocabulary around Hendrix's innovations in tone, feedback and expressive range.",
     [S("interview", "Brian May: 'Jimi Hendrix was the single biggest influence on my guitar playing — he changed everything for me.'", "Brian May"),
      S("encyclopedia", "AllMusic: Jimi Hendrix's revolutionary guitar techniques were central to Brian May's style and tone.", "AllMusic")]),
+
+  // --- Krautrock / electronic cluster ---
+  E("kraftwerk", "karlheinz-stockhausen", "Ralf Hütter and Florian Schneider studied under Stockhausen at Darmstadt; his tape and electronic methods were their foundation.",
+    [S("interview", "Ralf Hütter cited Stockhausen's Darmstadt courses as the starting point for Kraftwerk's electronic approach.", "Ralf Hütter"),
+     S("encyclopedia", "AllMusic: Stockhausen's influence on Kraftwerk's electronic and compositional methods is extensively documented.", "AllMusic")]),
+
+  E("david-bowie", "kraftwerk", "Bowie's Berlin Trilogy ('Low', 'Heroes', 'Lodger') was directly triggered by hearing Kraftwerk's 'Autobahn' on tour.",
+    [S("interview", "David Bowie stated that hearing Kraftwerk's 'Autobahn' changed the direction of his music and led to the Berlin period.", "David Bowie"),
+     S("encyclopedia", "AllMusic: Kraftwerk's influence on Bowie's Berlin Trilogy is one of the most documented episodes in 1970s rock history.", "AllMusic")]),
+  E("brian-eno", "kraftwerk", "Eno cited Kraftwerk's systematic approach to timbre and texture as a key influence on his ambient and production work.",
+    [S("interview", "Brian Eno named Kraftwerk among the artists who most shaped his approach to electronic music and ambient composition.", "Brian Eno"),
+     S("encyclopedia", "AllMusic: Kraftwerk's electronic minimalism was an acknowledged influence on Brian Eno's ambient music development.", "AllMusic")]),
+  E("cabaret-voltaire", "kraftwerk", "Cabaret Voltaire cited Kraftwerk's rhythmic machine music as a direct model for their tape-loop and synthesizer experiments.",
+    [S("interview", "Cabaret Voltaire members named Kraftwerk among their primary electronic influences in multiple interviews.", "Cabaret Voltaire"),
+     S("encyclopedia", "AllMusic: Kraftwerk's influence on Cabaret Voltaire's electronic direction is well documented.", "AllMusic")]),
+
+  // New natural link: Nina Simone ← Duke Ellington (both in DB)
+  E("nina-simone", "duke-ellington", "Simone cited Ellington as a major model for combining jazz sophistication with personal expression and orchestral imagination.",
+    [S("interview", "Nina Simone named Duke Ellington as one of her most important musical inspirations in interviews.", "Nina Simone"),
+     S("encyclopedia", "AllMusic: Duke Ellington's jazz sophistication and compositional ambition directly informed Nina Simone's approach.", "AllMusic")]),
+
+  // --- Post-punk / new wave cluster ---
+  E("joy-division", "sex-pistols", "Seeing the Sex Pistols at the Lesser Free Trade Hall on 4 June 1976 directly caused the members to form a band.",
+    [S("documentary", "'24 Hour Party People' and multiple documentaries: the Pistols' Lesser Free Trade Hall gig is the founding event of Joy Division.", "", 1976),
+     S("encyclopedia", "AllMusic: Joy Division (then Warsaw) formed immediately after witnessing the Sex Pistols in Manchester, June 1976.", "AllMusic", 1976)]),
+  E("joy-division", "the-velvet-underground", "Ian Curtis and the band absorbed the Velvet Underground's drone, minimalism and dark lyricism as a core reference.",
+    [S("interview", "Ian Curtis and Bernard Sumner both cited The Velvet Underground as a primary influence on Joy Division's atmosphere.", "Ian Curtis"),
+     S("encyclopedia", "AllMusic: The Velvet Underground's dark lyricism and minimalist sound were a direct touchstone for Joy Division.", "AllMusic")]),
+  E("joy-division", "david-bowie", "Bowie's Berlin Trilogy provided the sonic and emotional blueprint for Joy Division's atmosphere and production approach.",
+    [S("interview", "Members of Joy Division cited Bowie's 'Low' and 'Heroes' as crucial influences on the sound and mood of their records.", "Joy Division"),
+     S("encyclopedia", "AllMusic: David Bowie's Berlin Trilogy was a defining influence on Joy Division's sound and aesthetic.", "AllMusic")]),
+  E("joy-division", "kraftwerk", "Kraftwerk's cold, mechanised rhythms were central to Joy Division's industrial atmosphere and use of drum machines.",
+    [S("interview", "Bernard Sumner cited Kraftwerk as a key influence on Joy Division's use of electronic textures and repetitive rhythms.", "Bernard Sumner"),
+     S("encyclopedia", "AllMusic: Kraftwerk's electronic influence is clearly audible in Joy Division's sound and production approach.", "AllMusic")]),
+
+  E("new-order", "joy-division", "New Order emerged directly from the surviving members of Joy Division after Ian Curtis's death in 1980.",
+    [S("encyclopedia", "AllMusic: New Order formed from Joy Division's remaining members (Bernard Sumner, Peter Hook, Stephen Morris) in 1980.", "AllMusic", 1980),
+     S("documentary", "'New Order Story' (1993): the band documents how Joy Division became New Order and carried its legacy forward.", "", 1993)]),
+  E("new-order", "kraftwerk", "New Order's turn to electronic dance music was explicitly driven by their admiration for Kraftwerk's rhythmic precision.",
+    [S("interview", "Peter Hook and Bernard Sumner cited Kraftwerk as the primary reason New Order embraced synthesizers and drum machines.", "Peter Hook"),
+     S("encyclopedia", "AllMusic: Kraftwerk's machine rhythms were the direct catalyst for New Order's electronic direction after Joy Division.", "AllMusic")]),
 
   // --- Avant-garde / art-rock / electronic / industrial cluster ---
   // Bridge into the existing graph: Stockhausen's tape/musique-concrète методы — у Beatles.
