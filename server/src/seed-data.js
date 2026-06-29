@@ -122,6 +122,9 @@ export const artists = [
     bio: "Гитарист, возродивший интерес к блюзу в 1980-х." },
 
   // --- Avant-garde / art-rock / electronic / industrial cluster ---
+  { slug: "john-cage", name: "John Cage", type: "artist", country: "USA",
+    active_from: 1938, active_to: 1992, tags: ["avant-garde", "experimental", "classical"],
+    bio: "American composer whose prepared piano, chance operations (aleatoric music) and 4'33\" redefined the boundaries of music — a foundational figure for every strand of experimental and electronic art." },
   { slug: "karlheinz-stockhausen", name: "Karlheinz Stockhausen", type: "artist", country: "Германия",
     active_from: 1950, active_to: 2007, tags: ["avant-garde", "electronic"],
     bio: "Композитор-авангардист, пионер электронной и алеаторической музыки, повлиявший на рок и электронику." },
@@ -250,6 +253,7 @@ const imageMap = {
   "bob-marley": "https://commons.wikimedia.org/wiki/Special:FilePath/Bob-Marley-in-Concert_Zurich_05-30-80.jpg?width=200",
   "david-bowie": "https://commons.wikimedia.org/wiki/Special:FilePath/David-Bowie_Chicago_2002-08-08_photoby_Adam-Bielawski.jpg?width=200",
   "kraftwerk": "https://commons.wikimedia.org/wiki/Special:FilePath/Kraftwerk_in_Stockholm_2.jpg?width=200",
+  "john-cage": "https://commons.wikimedia.org/wiki/Special:FilePath/John_Cage_%281988%29_by_Ralph_Burgess.jpg?width=200",
 };
 
 // Wikipedia article (English) per artist — a reference link shown in the UI.
@@ -281,6 +285,7 @@ const wikiTitles = {
   "curtis-mayfield": "Curtis Mayfield", "marvin-gaye": "Marvin Gaye",
   "michael-jackson": "Michael Jackson", "bob-marley": "Bob Marley",
   "queen": "Queen (band)",
+  "john-cage": "John Cage",
 };
 
 for (const a of artists) {
@@ -554,6 +559,27 @@ export const influences = [
      S("encyclopedia", "AllMusic: Kraftwerk's machine rhythms were the direct catalyst for New Order's electronic direction after Joy Division.", "AllMusic")]),
 
   // --- Avant-garde / art-rock / electronic / industrial cluster ---
+  // John Cage cluster
+  E("karlheinz-stockhausen", "john-cage", "Cage's Darmstadt lectures and aleatoric methods directly triggered Stockhausen's use of chance in 'Klavierstück XI' and subsequent works.",
+    [S("encyclopedia", "Grove Music: Cage's 1958 Darmstadt lectures were a pivotal encounter for Stockhausen and redirected his approach to indeterminacy.", "Grove Music", 1958),
+     S("interview", "Stockhausen acknowledged Cage's aleatoric ideas as a key catalyst for his own compositional experiments with chance operations.", "Karlheinz Stockhausen")]),
+
+  E("brian-eno", "john-cage", "Cage's concept of music-as-process and his embrace of silence and chance were the philosophical backbone of Eno's ambient and generative music.",
+    [S("interview", "Brian Eno: 'Cage taught me that the composer doesn't have to control everything — that the environment and chance are part of the work.'", "Brian Eno"),
+     S("encyclopedia", "AllMusic: Cage's process-oriented thinking and ideas about silence were central acknowledged influences on Brian Eno's ambient philosophy.", "AllMusic")]),
+
+  E("the-velvet-underground", "john-cage", "John Cale entered the Velvet Underground from La Monte Young's Theatre of Eternal Music, a group directly built on Cage's drone and noise aesthetics.",
+    [S("encyclopedia", "AllMusic: John Cale's background in Cage-influenced minimalism via La Monte Young brought experimental noise and drone into the Velvet Underground.", "AllMusic"),
+     S("encyclopedia", "Grove Music: La Monte Young's Theatre of Eternal Music — the immediate precursor to Cale's work with the VU — grew directly out of Cagean ideas.", "Grove Music")]),
+
+  E("cabaret-voltaire", "john-cage", "Cabaret Voltaire's embrace of noise as music and tape collage as composition drew explicitly on Cage's expanded definition of sound.",
+    [S("interview", "Cabaret Voltaire members cited Cage's 4'33\" and his noise aesthetics as foundational to their approach to industrial sound.", "Cabaret Voltaire"),
+     S("encyclopedia", "AllMusic: Cage's noise philosophy and tape-music ideas are a documented root of Cabaret Voltaire's experimental direction.", "AllMusic")]),
+
+  E("genesis-p-orridge", "john-cage", "P-Orridge cited Cage's redefinition of music and performance art as a primary philosophical model for Throbbing Gristle's industrial practice.",
+    [S("interview", "Genesis P-Orridge explicitly cited John Cage's challenge to the definition of music as a foundational influence on Throbbing Gristle.", "Genesis P-Orridge"),
+     S("documentary", "Documentary interviews with P-Orridge repeatedly reference Cage's ideas about sound, noise and performance as central to the industrial music concept.", "")]),
+
   // Bridge into the existing graph: Stockhausen's tape/musique-concrète методы — у Beatles.
   E("the-beatles", "karlheinz-stockhausen", "Студийные эксперименты Beatles («Revolution 9», лупы) восходят к Штокхаузену; он — на обложке «Sgt. Pepper».",
     [S("interview", "Paul McCartney рассказывал об интересе к Штокхаузену и tape-музыке в период «Revolution 9».", "Paul McCartney"),
