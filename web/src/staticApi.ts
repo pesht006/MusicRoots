@@ -100,12 +100,15 @@ function linkFrom(inf: RawInfluence, other: Artist): InfluenceLink {
 function detail(slug: string): ArtistDetail | null {
   const a = bySlug.get(slug);
   if (!a) return null;
+  // Weak links (confidence "low") are not published (see CONCEPT §6).
   const roots = influences
     .filter((i) => i.artistId === a.id)
-    .map((i) => linkFrom(i, byId.get(i.influencedById)!));
+    .map((i) => linkFrom(i, byId.get(i.influencedById)!))
+    .filter((l) => l.confidence !== "low");
   const heirs = influences
     .filter((i) => i.influencedById === a.id)
-    .map((i) => linkFrom(i, byId.get(i.artistId)!));
+    .map((i) => linkFrom(i, byId.get(i.artistId)!))
+    .filter((l) => l.confidence !== "low");
   return { ...a, roots, heirs };
 }
 
@@ -136,6 +139,7 @@ function subgraph(focusSlug: string, depth: number): Graph | null {
     const next: number[] = [];
     for (const id of frontier) {
       for (const inf of influences.filter((i) => i.artistId === id)) {
+        if (confidence(inf.sources) === "low") continue;
         const root = byId.get(inf.influencedById)!;
         addNode(root, -d);
         addEdge(id, root.id, inf);
@@ -150,6 +154,7 @@ function subgraph(focusSlug: string, depth: number): Graph | null {
     const next: number[] = [];
     for (const id of frontier) {
       for (const inf of influences.filter((i) => i.influencedById === id)) {
+        if (confidence(inf.sources) === "low") continue;
         const heir = byId.get(inf.artistId)!;
         addNode(heir, d);
         addEdge(heir.id, id, inf);
