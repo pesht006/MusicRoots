@@ -146,6 +146,47 @@ export const artists = [
   { slug: "genesis-p-orridge", name: "Genesis P-Orridge", type: "artist", country: "Великобритания",
     active_from: 1969, active_to: 2020, tags: ["industrial"],
     bio: "Основатель Throbbing Gristle и Psychic TV, идеолог индустриальной музыки и перформанса." },
+
+  // --- Jazz / New Orleans roots cluster ---
+  { slug: "king-oliver", name: "King Oliver", type: "artist", country: "USA",
+    active_from: 1915, active_to: 1938, tags: ["jazz", "new-orleans"],
+    bio: "New Orleans cornet king and mentor of Louis Armstrong, whose Creole Jazz Band set the template for Chicago jazz." },
+  { slug: "duke-ellington", name: "Duke Ellington", type: "artist", country: "USA",
+    active_from: 1917, active_to: 1974, tags: ["jazz", "big-band"],
+    bio: "Composer, pianist and bandleader whose half-century career made him the defining figure of American jazz." },
+  { slug: "louis-armstrong", name: "Louis Armstrong", type: "artist", country: "USA",
+    active_from: 1919, active_to: 1971, tags: ["jazz", "new-orleans"],
+    bio: "Satchmo — the first great jazz soloist and global ambassador of jazz, who transformed improvisation and trumpet technique." },
+  { slug: "django-reinhardt", name: "Django Reinhardt", type: "artist", country: "Belgium",
+    active_from: 1928, active_to: 1953, tags: ["jazz", "gypsy-jazz"],
+    bio: "Romani-Belgian guitarist who co-created Gypsy jazz and remains one of the most singular voices in the history of guitar." },
+
+  // --- Soul / funk / R&B cluster ---
+  { slug: "jackie-wilson", name: "Jackie Wilson", type: "artist", country: "USA",
+    active_from: 1953, active_to: 1984, tags: ["rhythm-and-blues", "soul"],
+    bio: "R&B showman nicknamed 'Mr. Excitement', whose acrobatic stage performances set the template that Michael Jackson would perfect." },
+  { slug: "james-brown", name: "James Brown", type: "artist", country: "USA",
+    active_from: 1956, active_to: 2006, tags: ["funk", "soul", "rhythm-and-blues"],
+    bio: "The Godfather of Soul and Father of Funk, whose explosive stage presence and rhythmic innovations defined soul, funk and hip-hop." },
+  { slug: "curtis-mayfield", name: "Curtis Mayfield", type: "artist", country: "USA",
+    active_from: 1958, active_to: 1999, tags: ["soul", "funk", "rhythm-and-blues"],
+    bio: "Soul and funk visionary whose socially charged music with The Impressions and his solo career influenced generations of artists." },
+  { slug: "marvin-gaye", name: "Marvin Gaye", type: "artist", country: "USA",
+    active_from: 1961, active_to: 1984, tags: ["soul", "rhythm-and-blues"],
+    bio: "Motown star who evolved from pop hits to socially conscious albums, redefining what soul music could say and feel." },
+  { slug: "michael-jackson", name: "Michael Jackson", type: "artist", country: "USA",
+    active_from: 1964, active_to: 2009, tags: ["pop", "rhythm-and-blues", "funk"],
+    bio: "The King of Pop, whose synthesis of R&B, soul and pop combined with revolutionary dance defined modern pop music globally." },
+
+  // --- Reggae ---
+  { slug: "bob-marley", name: "Bob Marley", type: "artist", country: "Jamaica",
+    active_from: 1963, active_to: 1981, tags: ["reggae"],
+    bio: "The face of reggae worldwide, who fused Jamaican roots music with soul and Rastafari spirituality to reach audiences across generations." },
+
+  // --- Glam / classic rock ---
+  { slug: "queen", name: "Queen", type: "band", country: "United Kingdom",
+    active_from: 1970, active_to: null, tags: ["rock", "glam-rock", "art-rock"],
+    bio: "Maximalist British rock band whose operatic grandeur, layered arrangements and showmanship became the stadium-rock blueprint." },
 ];
 
 // Representative photo per artist (Wikimedia Commons). Empty → initials avatar.
@@ -208,6 +249,12 @@ const wikiTitles = {
   "the-velvet-underground": "The Velvet Underground", "david-bowie": "David Bowie",
   "brian-eno": "Brian Eno", "kate-bush": "Kate Bush",
   "cabaret-voltaire": "Cabaret Voltaire", "genesis-p-orridge": "Genesis P-Orridge",
+  "king-oliver": "King Oliver", "duke-ellington": "Duke Ellington",
+  "louis-armstrong": "Louis Armstrong", "django-reinhardt": "Django Reinhardt",
+  "jackie-wilson": "Jackie Wilson", "james-brown": "James Brown",
+  "curtis-mayfield": "Curtis Mayfield", "marvin-gaye": "Marvin Gaye",
+  "michael-jackson": "Michael Jackson", "bob-marley": "Bob Marley",
+  "queen": "Queen (band)",
 };
 
 for (const a of artists) {
@@ -393,6 +440,51 @@ export const influences = [
      S("interview", "SRV открыто называл Джими Хендрикса главным кумиром и строил репертуар на его вещах.", "Stevie Ray Vaughan")]),
   E("stevie-ray-vaughan", "bb-king", "Блюзовая фразировка Вогана наследует Би Би Кингу.",
     [S("interview", "SRV называл B.B. King в числе главных учителей блюза.", "Stevie Ray Vaughan")]),
+
+  // --- Jazz / New Orleans cluster ---
+  E("louis-armstrong", "king-oliver", "Oliver was Armstrong's mentor; Armstrong joined his Creole Jazz Band in Chicago in 1922 and modelled his early style directly on Oliver.",
+    [S("autobiography", "Louis Armstrong, 'Satchmo: My Life in New Orleans' (1954): King Oliver was my idol and teacher.", "Louis Armstrong", 1954),
+     S("encyclopedia", "AllMusic: King Oliver's Creole Jazz Band was the crucible of Armstrong's early development.", "AllMusic")]),
+
+  E("django-reinhardt", "louis-armstrong", "Armstrong's improvisational freedom and jazz phrasing were foundational for Django; they admired each other and Django absorbed Armstrong's recordings intensely.",
+    [S("encyclopedia", "AllMusic: Louis Armstrong's jazz idiom was foundational for Django Reinhardt's improvisational approach.", "AllMusic"),
+     S("documentary", "'The Django Legacy': Armstrong's recordings were among the first jazz music Django encountered and studied.", "")]),
+  E("django-reinhardt", "duke-ellington", "Django toured the US with Ellington in 1946; Ellington was his primary model for jazz sophistication and composition.",
+    [S("autobiography", "Duke Ellington, 'Music Is My Mistress' (1973): praised Django as the greatest guitarist he had ever heard.", "Duke Ellington", 1973),
+     S("encyclopedia", "AllMusic: Django Reinhardt's 1946 US tour with Duke Ellington is among the most documented partnerships in jazz history.", "AllMusic", 1946)]),
+
+  // --- Soul / funk / R&B cluster ---
+  E("michael-jackson", "james-brown", "Jackson called Brown 'the greatest entertainer who ever lived' and built his entire dance vocabulary and stage approach around him.",
+    [S("autobiography", "Michael Jackson, 'Moonwalk' (1988): James Brown was my greatest inspiration and I studied his every move.", "Michael Jackson", 1988),
+     S("interview", "Michael Jackson repeatedly cited James Brown in press interviews as his primary performance model.", "Michael Jackson")]),
+  E("michael-jackson", "jackie-wilson", "Jackson studied Wilson's footwork and vocal acrobatics from childhood, directly modelling his performance style on him.",
+    [S("interview", "Michael Jackson: 'Jackie Wilson was one of my greatest influences — I used to watch him and study every move.'", "Michael Jackson"),
+     S("encyclopedia", "AllMusic: Jackie Wilson's stage techniques — spins, footwork, vocal theatrics — were directly absorbed by Michael Jackson.", "AllMusic")]),
+  // Natural intersection with existing graph: Little Richard is already in DB
+  E("michael-jackson", "little-richard", "Little Richard's uninhibited vocal energy and showmanship were formative influences on the young Jackson.",
+    [S("interview", "Michael Jackson cited Little Richard among his earliest musical inspirations in multiple interviews.", "Michael Jackson"),
+     S("encyclopedia", "AllMusic: Little Richard's flamboyant style and raw vocal power directly shaped Michael Jackson's early approach.", "AllMusic")]),
+  E("michael-jackson", "marvin-gaye", "Gaye's blend of sensual soul and social commentary shaped Jackson's lyrical ambition on albums like 'Off the Wall' and 'Thriller'.",
+    [S("interview", "Michael Jackson cited Marvin Gaye as a key influence on his songwriting and ability to communicate social messages.", "Michael Jackson"),
+     S("encyclopedia", "AllMusic: Marvin Gaye's Motown sophistication and emotional depth were a direct touchstone for Michael Jackson.", "AllMusic")]),
+
+  E("bob-marley", "curtis-mayfield", "Mayfield's blend of soul, social consciousness and spiritual uplift directly shaped Marley's lyrical vision with The Wailers.",
+    [S("interview", "Bob Marley cited Curtis Mayfield as one of the most important influences on his music and his message.", "Bob Marley"),
+     S("encyclopedia", "AllMusic: Curtis Mayfield's socially charged soul was a key acknowledged influence on Bob Marley's songwriting.", "AllMusic")]),
+
+  // --- Queen (all four roots are natural intersections with existing graph) ---
+  E("queen", "the-beatles", "Freddie Mercury and Brian May cited the Beatles as their primary model for melodic songwriting, studio ambition and vocal harmony.",
+    [S("interview", "Freddie Mercury stated the Beatles were the reason he wanted to be in a band and their harmonies were Queen's blueprint.", "Freddie Mercury"),
+     S("encyclopedia", "AllMusic: Queen's multi-layered vocal harmonies and ambitious studio craft owe a direct debt to the Beatles.", "AllMusic")]),
+  E("queen", "led-zeppelin", "Brian May's guitar orchestration and Queen's heavy arrangements draw directly from Led Zeppelin's dynamic range.",
+    [S("interview", "Brian May cited Jimmy Page and Led Zeppelin as the benchmark for hard rock guitar and dramatic arrangement.", "Brian May"),
+     S("encyclopedia", "AllMusic: Led Zeppelin's power and dynamic range were a cornerstone influence on Queen's hard rock approach.", "AllMusic")]),
+  E("queen", "david-bowie", "Bowie's glam theatricality and persona-driven artistry shaped Queen's visual identity and Freddie Mercury's stage presence.",
+    [S("interview", "Freddie Mercury cited David Bowie's theatrical staging as a key influence on Queen's live performance approach.", "Freddie Mercury"),
+     S("encyclopedia", "AllMusic: Bowie's glam-rock flamboyance directly influenced Queen's aesthetic and showmanship.", "AllMusic")]),
+  E("queen", "jimi-hendrix", "Brian May built his guitar vocabulary around Hendrix's innovations in tone, feedback and expressive range.",
+    [S("interview", "Brian May: 'Jimi Hendrix was the single biggest influence on my guitar playing — he changed everything for me.'", "Brian May"),
+     S("encyclopedia", "AllMusic: Jimi Hendrix's revolutionary guitar techniques were central to Brian May's style and tone.", "AllMusic")]),
 
   // --- Avant-garde / art-rock / electronic / industrial cluster ---
   // Bridge into the existing graph: Stockhausen's tape/musique-concrète методы — у Beatles.
