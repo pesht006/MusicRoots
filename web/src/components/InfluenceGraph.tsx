@@ -72,10 +72,16 @@ export default function InfluenceGraph({
     return () => ro.disconnect();
   }, []);
 
-  // Re-center on focus whenever the graph changes.
+  // Re-center only when the focused artist changes (or on first measure).
+  // A bare resize must NOT reset the view: on mobile the browser chrome
+  // (URL bar) shows/hides during touch, resizing the container — recentering
+  // there made the graph snap back every time a touch was released.
+  const centeredFor = useRef<string | null>(null);
   useEffect(() => {
+    if (size.w === 0 || size.h === 0) return;
+    if (centeredFor.current === graph.focus.slug) return;
+    centeredFor.current = graph.focus.slug;
     setT({ x: size.w / 2, y: size.h / 2, k: 1 });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [graph.focus.slug, size.w, size.h]);
 
   // Touch gestures: one finger pans, two fingers pinch-zoom about the gesture
