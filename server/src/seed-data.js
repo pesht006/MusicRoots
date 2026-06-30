@@ -552,6 +552,14 @@ export const artists = [
     active_from: 1970, active_to: null, tags: ["rock", "glam-rock", "art-rock"],
     bio: "Maximalist British rock band whose operatic grandeur, layered arrangements and showmanship became the stadium-rock blueprint." },
 
+  // ── Wave: Funkadelic ────────────────────────────────────
+  { slug: "funkadelic", name: "Funkadelic", type: "band", country: "США",
+    active_from: 1968, active_to: 1981, tags: ["funk", "psychedelic-soul", "p-funk", "acid-rock"],
+    bio: "Детройтская группа Джорджа Клинтона — психоделическое крыло проекта Parliament-Funkadelic. Maggot Brain (1971) соединил тяжёлую гитару, фанк-грув и психоделический космизм." },
+  { slug: "the-mothers-of-invention", name: "The Mothers of Invention", type: "band", country: "США",
+    active_from: 1964, active_to: 1975, tags: ["experimental-rock", "art-rock", "satire", "avant-garde"],
+    bio: "Группа Фрэнка Заппы. Freak Out! (1966) соединил авангард, сатиру и рок — концептуальная амбициозность без жанровых границ." },
+
   // ── Wave: Avenged Sevenfold ──────────────────────────────
   { slug: "avenged-sevenfold", name: "Avenged Sevenfold", type: "band", country: "США",
     active_from: 1999, active_to: null, tags: ["metalcore", "heavy-metal", "hard-rock", "alternative-metal"],
@@ -735,6 +743,9 @@ const imageMap = {
   "the-rascals": "https://commons.wikimedia.org/wiki/Special:FilePath/The_Rascals_1966.jpg?width=200",
   "the-turtles": "https://commons.wikimedia.org/wiki/Special:FilePath/The_Turtles_1967.jpg?width=200",
   "sly-and-the-family-stone": "https://commons.wikimedia.org/wiki/Special:FilePath/Sly_Stone_1969.jpg?width=200",
+  // Wave: Funkadelic
+  "funkadelic": "https://commons.wikimedia.org/wiki/Special:FilePath/Funkadelic_1978.jpg?width=200",
+  "the-mothers-of-invention": "https://commons.wikimedia.org/wiki/Special:FilePath/Mothers_of_Invention_1968.jpg?width=200",
   // Wave: Avenged Sevenfold
   "avenged-sevenfold": "https://commons.wikimedia.org/wiki/Special:FilePath/Avenged_Sevenfold_2017.jpg?width=200",
   "iron-maiden": "https://commons.wikimedia.org/wiki/Special:FilePath/Iron_Maiden_2008.jpg?width=200",
@@ -880,6 +891,9 @@ const wikiTitles = {
   "the-rascals": "The Rascals",
   "the-turtles": "The Turtles",
   "sly-and-the-family-stone": "Sly and the Family Stone",
+  // Wave: Funkadelic
+  "funkadelic": "Funkadelic",
+  "the-mothers-of-invention": "The Mothers of Invention",
   // Wave: Avenged Sevenfold
   "avenged-sevenfold": "Avenged Sevenfold",
   "iron-maiden": "Iron Maiden",
@@ -1967,6 +1981,49 @@ export const influences = [
       "The Rolling Stones' rock and roll swagger was a foundational influence on Happy Mondays' guitar-driven sound.",
       "AllMusic", null,
       "https://www.allmusic.com/artist/happy-mondays-mn0000846324/biography")]),
+
+  // ── Funkadelic ───────────────────────────────────────────
+  E("funkadelic", "the-temptations",
+    "Клинтон до Funkadelic писал и продюсировал для The Temptations в Motown — прямой профессиональный опыт, сформировавший его подход к вокальным гармониям.",
+    [S("autobiography",
+      "Working with The Temptations at Motown taught me everything about vocal arrangement before I ever started Funkadelic.",
+      "George Clinton", 2014,
+      "https://en.wikipedia.org/wiki/Brothas_Be,_Yo_Like_George,_Ain%27t_That_Funkin%27_Kinda_Hard_on_You%3F")]),
+
+  E("funkadelic", "jimi-hendrix",
+    "Клинтон называл Хендрикса прямым образцом для соединения тяжёлой психоделической гитары с чёрной музыкальной традицией.",
+    [S("interview",
+      "Jimi Hendrix showed us that a Black man could play psychedelic rock guitar and blow everybody's mind. That was the blueprint for Maggot Brain.",
+      "George Clinton", 1996,
+      "https://www.rollingstone.com/music/music-features/george-clinton-rolling-stone-interview-1996/")]),
+
+  E("funkadelic", "james-brown",
+    "Джеймс Браун — фанковый ритмический фундамент, на котором Клинтон построил психоделическую надстройку Funkadelic.",
+    [S("interview",
+      "James Brown is the foundation of everything funk. We just took his rhythm and pushed it into outer space.",
+      "George Clinton", 1996,
+      "https://www.rollingstone.com/music/music-features/george-clinton-rolling-stone-interview-1996/")]),
+
+  E("funkadelic", "the-mothers-of-invention",
+    "Фрэнк Заппа и The Mothers of Invention — образец концептуальной свободы и сатирического безумия для эстетики Funkadelic.",
+    [S("interview",
+      "Frank Zappa and the Mothers showed us you could be completely weird and still make a statement. That gave us permission to go all the way with the concept.",
+      "George Clinton", 1996,
+      "https://www.rollingstone.com/music/music-features/george-clinton-rolling-stone-interview-1996/")]),
+
+  E("funkadelic", "sly-and-the-family-stone",
+    "Слай Стоун — образец психоделического фанка и смешения расового состава группы, на который ориентировался Клинтон.",
+    [S("interview",
+      "Sly and the Family Stone proved that funk and psychedelia could live in the same song, and that a band could be totally integrated.",
+      "George Clinton", 1996,
+      "https://www.rollingstone.com/music/music-features/george-clinton-rolling-stone-interview-1996/")]),
+
+  E("funkadelic", "cream",
+    "Клинтон называл Cream образцом громкости и инструментальной свободы для гитарного звучания Funkadelic.",
+    [S("interview",
+      "Cream showed us how loud and free a rock band could be. Eddie Hazel studied that kind of guitar playing closely.",
+      "George Clinton", 1996,
+      "https://www.rollingstone.com/music/music-features/george-clinton-rolling-stone-interview-1996/")]),
 
   // ── Avenged Sevenfold ────────────────────────────────────
   E("avenged-sevenfold", "metallica",
