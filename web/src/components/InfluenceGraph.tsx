@@ -50,39 +50,64 @@ export default function InfluenceGraph({
 }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ w: 800, h: 600 });
-  const [t, setT] = useState({ x: 400, y: 300, k: 1 });
+  // tRef is the single source of truth for the transform. It is updated
+  // synchronously before every setT call so that native touch handlers always
+  // read the latest value — no stale-closure / between-render race condition.
+  const tRef = useRef({ x: 400, y: 300, k: 1 });
+  const [t, setT] = useState(tRef.current);
   const drag = useRef<{ x: number; y: number; tx: number; ty: number } | null>(null);
   const [grabbing, setGrabbing] = useState(false);
   const [hoverEdge, setHoverEdge] = useState<{ edge: GraphEdge; x: number; y: number } | null>(null);
 
+  // Apply a new transform: update the mutable ref synchronously, then schedule a render.
+  const applyT = (newT: { x: number; y: number; k: number }) => {
+    tRef.current = newT;
+    setT(newT);
+  };
+
   const positioned = useMemo(() => layout(graph.nodes), [graph]);
 
-  // Latest transform, readable from native (non-React) touch listeners.
-  const tRef = useRef(t);
-  tRef.current = t;
+  // Container size — stored in a ref so centering logic can read it from
+  // callbacks without stale closures, and in state for the tooltip clamp.
+  const sizeRef = useRef({ w: 0, h: 0 });
+  // Current focus slug — ref so the ResizeObserver callback can read it.
+  const focusSlugRef = useRef(graph.focus.slug);
+  focusSlugRef.current = graph.focus.slug;
+  // Which slug we last centered for (prevents resize-triggered recenters).
+  const centeredFor = useRef<string | null>(null);
 
-  // Measure container.
+  const doCenter = (w: number, h: number) => {
+    centeredFor.current = focusSlugRef.current;
+    applyT({ x: w / 2, y: h / 2, k: 1 });
+  };
+
+  // Measure container. Center on the very first measurement.
   useEffect(() => {
     if (!wrapRef.current) return;
     const ro = new ResizeObserver((entries) => {
-      const r = entries[0].contentRect;
-      setSize({ w: r.width, h: r.height });
+      const { width, height } = entries[0].contentRect;
+      sizeRef.current = { w: width, h: height };
+      setSize({ w: width, h: height });
+      // Only center on the first meaningful measurement; subsequent resizes
+      // (e.g. mobile URL-bar show/hide) must NOT reset the user's pan/zoom.
+      if (centeredFor.current === null && width > 0 && height > 0) {
+        doCenter(width, height);
+      }
     });
     ro.observe(wrapRef.current);
     return () => ro.disconnect();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Re-center only when the focused artist changes (or on first measure).
-  // A bare resize must NOT reset the view: on mobile the browser chrome
-  // (URL bar) shows/hides during touch, resizing the container — recentering
-  // there made the graph snap back every time a touch was released.
-  const centeredFor = useRef<string | null>(null);
+  // Recenter when the focused artist changes — uses sizeRef, not size state,
+  // so the effect does NOT depend on size and can never be triggered by a resize.
   useEffect(() => {
-    if (size.w === 0 || size.h === 0) return;
     if (centeredFor.current === graph.focus.slug) return;
-    centeredFor.current = graph.focus.slug;
-    setT({ x: size.w / 2, y: size.h / 2, k: 1 });
-  }, [graph.focus.slug, size.w, size.h]);
+    const { w, h } = sizeRef.current;
+    if (w === 0 || h === 0) return; // not measured yet; ResizeObserver will center
+    doCenter(w, h);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [graph.focus.slug]);
 
   // Touch gestures: one finger pans, two fingers pinch-zoom about the gesture
   // centre. Registered natively with passive:false so we can preventDefault and
@@ -169,14 +194,14 @@ export default function InfluenceGraph({
         const dist = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY) || 1;
         const k = Math.min(2.5, Math.max(0.25, g.bk * (dist / g.dist0)));
         // keep the graph point under the pinch centre stable
-        setT({ k, x: mx - g.gx * k, y: my - g.gy * k });
+        applyT({ k, x: mx - g.gx * k, y: my - g.gy * k });
       } else if (g.mode === "pan") {
         const tch = e.touches[0];
-        setT((prev) => ({
-          ...prev,
+        applyT({
+          ...tRef.current,
           x: g!.bx + (tch.clientX - g!.sx),
           y: g!.by + (tch.clientY - g!.sy),
-        }));
+        });
       }
     };
 
@@ -208,27 +233,23 @@ export default function InfluenceGraph({
     const mx = e.clientX - rect.left;
     const my = e.clientY - rect.top;
     const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
-    const k = Math.min(2.5, Math.max(0.25, t.k * factor));
-    // keep point under cursor stable
-    const gx = (mx - t.x) / t.k;
-    const gy = (my - t.y) / t.k;
-    setT({ k, x: mx - gx * k, y: my - gy * k });
+    const cur = tRef.current;
+    const k = Math.min(2.5, Math.max(0.25, cur.k * factor));
+    const gx = (mx - cur.x) / cur.k;
+    const gy = (my - cur.y) / cur.k;
+    applyT({ k, x: mx - gx * k, y: my - gy * k });
   };
 
   const onMouseDown = (e: React.MouseEvent) => {
-    drag.current = { x: e.clientX, y: e.clientY, tx: t.x, ty: t.y };
+    const cur = tRef.current;
+    drag.current = { x: e.clientX, y: e.clientY, tx: cur.x, ty: cur.y };
     setGrabbing(true);
   };
   const onMouseMove = (e: React.MouseEvent) => {
-const d = drag.current;
-if (!d) return;
-
-setT((prev) => ({
-...prev,
-x: d.tx + (e.clientX - d.x),
-y: d.ty + (e.clientY - d.y),
-}));
-};
+    const d = drag.current;
+    if (!d) return;
+    applyT({ ...tRef.current, x: d.tx + (e.clientX - d.x), y: d.ty + (e.clientY - d.y) });
+  };
 
   const endDrag = () => {
     drag.current = null;
