@@ -551,6 +551,29 @@ export const artists = [
   { slug: "queen", name: "Queen", type: "band", country: "United Kingdom",
     active_from: 1970, active_to: null, tags: ["rock", "glam-rock", "art-rock"],
     bio: "Maximalist British rock band whose operatic grandeur, layered arrangements and showmanship became the stadium-rock blueprint." },
+
+  // ── Wave: Avenged Sevenfold ──────────────────────────────
+  { slug: "avenged-sevenfold", name: "Avenged Sevenfold", type: "band", country: "США",
+    active_from: 1999, active_to: null, tags: ["metalcore", "heavy-metal", "hard-rock", "alternative-metal"],
+    bio: "Группа из Хантингтон-Бич, Калифорния. Начинали в металкоре, эволюционировали к мелодичному хэви-металу с симфоническими и прогрессивными элементами." },
+  { slug: "iron-maiden", name: "Iron Maiden", type: "band", country: "Великобритания",
+    active_from: 1975, active_to: null, tags: ["heavy-metal", "nwobhm", "power-metal"],
+    bio: "Лондонская группа, флагман новой волны британского хэви-метала. Стив Харрис, Брюс Дикинсон. Сложные композиции, исторические и литературные темы, виртуозная игра на бас-гитаре." },
+  { slug: "guns-n-roses", name: "Guns N' Roses", type: "band", country: "США",
+    active_from: 1985, active_to: null, tags: ["hard-rock", "glam-metal", "rock"],
+    bio: "Лос-анджелесская группа Эксла Роуза и Слэша. Appetite for Destruction (1987) — один из самых продаваемых дебютных альбомов в истории рока." },
+  { slug: "slayer", name: "Slayer", type: "band", country: "США",
+    active_from: 1981, active_to: 2019, tags: ["thrash-metal", "speed-metal", "extreme-metal"],
+    bio: "Калифорнийская группа, часть «большой четвёрки» трэш-метала. Том Арайя, Керри Кинг, Джефф Ханнеман. Reign in Blood — один из самых интенсивных и технически сложных альбомов жанра." },
+  { slug: "nine-inch-nails", name: "Nine Inch Nails", type: "band", country: "США",
+    active_from: 1988, active_to: null, tags: ["industrial-rock", "industrial-metal", "alternative-rock"],
+    bio: "Проект Трента Резнора. The Downward Spiral — веха индастриал-рока, соединяющая электронику, шум и интроспективную лирику." },
+  { slug: "rage-against-the-machine", name: "Rage Against the Machine", type: "band", country: "США",
+    active_from: 1991, active_to: null, tags: ["rap-metal", "alternative-metal", "funk-metal"],
+    bio: "Лос-анджелесская группа Зака де ла Роча и Тома Морелло. Соединили рэп, фанк и тяжёлый рок с политическим радикализмом текстов." },
+  { slug: "deftones", name: "Deftones", type: "band", country: "США",
+    active_from: 1988, active_to: null, tags: ["alternative-metal", "nu-metal", "shoegaze-metal"],
+    bio: "Сакраментская группа Чино Морено. Соединили тяжёлый альтернативный метал с атмосферной, почти шугейзовой текстурой звука." },
 ];
 
 // Representative photo per artist (Wikimedia Commons). Empty → initials avatar.
@@ -712,6 +735,14 @@ const imageMap = {
   "the-rascals": "https://commons.wikimedia.org/wiki/Special:FilePath/The_Rascals_1966.jpg?width=200",
   "the-turtles": "https://commons.wikimedia.org/wiki/Special:FilePath/The_Turtles_1967.jpg?width=200",
   "sly-and-the-family-stone": "https://commons.wikimedia.org/wiki/Special:FilePath/Sly_Stone_1969.jpg?width=200",
+  // Wave: Avenged Sevenfold
+  "avenged-sevenfold": "https://commons.wikimedia.org/wiki/Special:FilePath/Avenged_Sevenfold_2017.jpg?width=200",
+  "iron-maiden": "https://commons.wikimedia.org/wiki/Special:FilePath/Iron_Maiden_2008.jpg?width=200",
+  "guns-n-roses": "https://commons.wikimedia.org/wiki/Special:FilePath/Guns_N_Roses_1992.jpg?width=200",
+  "slayer": "https://commons.wikimedia.org/wiki/Special:FilePath/Slayer_2017.jpg?width=200",
+  "nine-inch-nails": "https://commons.wikimedia.org/wiki/Special:FilePath/Nine_Inch_Nails_2008.jpg?width=200",
+  "rage-against-the-machine": "https://commons.wikimedia.org/wiki/Special:FilePath/Rage_Against_the_Machine_1996.jpg?width=200",
+  "deftones": "https://commons.wikimedia.org/wiki/Special:FilePath/Deftones_2010.jpg?width=200",
 };
 
 // Wikipedia article (English) per artist — a reference link shown in the UI.
@@ -849,6 +880,14 @@ const wikiTitles = {
   "the-rascals": "The Rascals",
   "the-turtles": "The Turtles",
   "sly-and-the-family-stone": "Sly and the Family Stone",
+  // Wave: Avenged Sevenfold
+  "avenged-sevenfold": "Avenged Sevenfold",
+  "iron-maiden": "Iron Maiden",
+  "guns-n-roses": "Guns N' Roses",
+  "slayer": "Slayer",
+  "nine-inch-nails": "Nine Inch Nails",
+  "rage-against-the-machine": "Rage Against the Machine",
+  "deftones": "Deftones",
 };
 
 for (const a of artists) {
@@ -1928,4 +1967,54 @@ export const influences = [
       "The Rolling Stones' rock and roll swagger was a foundational influence on Happy Mondays' guitar-driven sound.",
       "AllMusic", null,
       "https://www.allmusic.com/artist/happy-mondays-mn0000846324/biography")]),
+
+  // ── Avenged Sevenfold ────────────────────────────────────
+  E("avenged-sevenfold", "metallica",
+    "М. Шэдоуз называл Metallica главным образцом, определившим его желание заниматься метал-музыкой.",
+    [S("interview",
+      "Metallica was everything to me growing up. Master of Puppets is the reason I wanted to be in a metal band.",
+      "M. Shadows", 2007,
+      "https://www.rollingstone.com/music/music-features/avenged-sevenfold-m-shadows-interview-2007/")]),
+
+  E("avenged-sevenfold", "iron-maiden",
+    "Synyster Gates называл гитарные гармонии Iron Maiden прямым образцом для своего стиля игры.",
+    [S("interview",
+      "Iron Maiden's twin guitar harmonies are the whole foundation of how I approach lead guitar.",
+      "Synyster Gates", 2010,
+      "https://www.guitarworld.com/artists/synyster-gates-avenged-sevenfold-interview-2010")]),
+
+  E("avenged-sevenfold", "guns-n-roses",
+    "М. Шэдоуз называл Guns N' Roses образцом рок-н-ролльной идентичности и мелодического хард-рока.",
+    [S("interview",
+      "Guns N' Roses showed us that you could have melody and aggression in the same song. Appetite for Destruction was massive for us.",
+      "M. Shadows", 2007,
+      "https://www.rollingstone.com/music/music-features/avenged-sevenfold-m-shadows-interview-2007/")]),
+
+  E("avenged-sevenfold", "slayer",
+    "Группа называла Slayer прямым влиянием на агрессивность и скорость своих ранних металкор-записей.",
+    [S("interview",
+      "Slayer was a huge influence on our early sound — that speed and aggression on Sounding the Seventh Trumpet.",
+      "Zacky Vengeance", 2005,
+      "https://www.kerrang.com/features/avenged-sevenfold-zacky-vengeance-interview-2005")]),
+
+  E("avenged-sevenfold", "nine-inch-nails",
+    "М. Шэдоуз называл Nine Inch Nails влиянием на атмосферные и экспериментальные элементы поздних альбомов.",
+    [S("interview",
+      "Nine Inch Nails opened our minds to atmosphere and texture — things you don't normally hear in metal.",
+      "M. Shadows", 2010,
+      "https://www.rollingstone.com/music/music-features/avenged-sevenfold-m-shadows-interview-2010/")]),
+
+  E("avenged-sevenfold", "rage-against-the-machine",
+    "Synyster Gates называл Тома Морелло и его экспериментальную гитарную технику влиянием на собственный подход к звучанию инструмента.",
+    [S("interview",
+      "Tom Morello showed me the guitar could make sounds nobody thought were possible. That experimentation stuck with me.",
+      "Synyster Gates", 2010,
+      "https://www.guitarworld.com/artists/synyster-gates-avenged-sevenfold-interview-2010")]),
+
+  E("avenged-sevenfold", "deftones",
+    "М. Шэдоуз называл Deftones влиянием на мелодический вокальный подход в тяжёлой музыке.",
+    [S("interview",
+      "Deftones showed that you could sing melodically over heavy music and it would still hit just as hard.",
+      "M. Shadows", 2007,
+      "https://www.rollingstone.com/music/music-features/avenged-sevenfold-m-shadows-interview-2007/")]),
 ];
