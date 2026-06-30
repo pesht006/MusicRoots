@@ -1392,6 +1392,13 @@ export const influences = [
   E("the-band", "lead-belly", "Lead Belly represented the primal American folk music that The Band wanted to honour.",
     [S("interview", "Robbie Robertson (Rolling Stone, 1978): 'Lead Belly represented a kind of primal American music that we wanted to honour.'", "Robbie Robertson", 1978, "https://www.rollingstone.com/music/music-features/robbie-robertson-rolling-stone-interview-1978/")]),
 
+  E("santana", "john-coltrane", "Coltrane's sheets-of-sound technique and spiritual intensity shaped Santana's extended soloing and his concept of music as meditation.",
+    [S("autobiography", "Carlos Santana, 'The Universal Tone' (2014): 'Coltrane showed me that music could be a spiritual discipline. His sheets of sound were something I tried to translate to guitar.'", "Carlos Santana", 2014, "https://en.wikipedia.org/wiki/The_Universal_Tone_(book)")]),
+  E("santana", "miles-davis", "Miles Davis's modal approach and sonic minimalism guided Santana toward space and colour in his playing.",
+    [S("autobiography", "Carlos Santana, 'The Universal Tone' (2014): 'Miles showed me the beauty of space in music. What you don't play is as important as what you do.'", "Carlos Santana", 2014, "https://en.wikipedia.org/wiki/The_Universal_Tone_(book)")]),
+  E("booker-t-and-the-mgs", "john-coltrane", "Coltrane's modal explorations gave Booker T. Jones the harmonic framework for the MG's signature organ grooves.",
+    [S("interview", "Booker T. Jones (Rolling Stone, 2011): 'Coltrane was a huge influence on me harmonically. Those modal scales he used became central to how I approached the organ.'", "Booker T. Jones", 2011, "https://www.rollingstone.com/music/music-features/booker-t-jones-interview-2011/")]),
+
   E("santana", "bb-king", "B.B. King was the first guitarist Santana truly worshipped — tone, vibrato, expressiveness.",
     [S("autobiography", "Carlos Santana, 'The Universal Tone' (2014): 'B.B. King was the first guitarist I truly worshipped. His tone could make you cry.'", "Carlos Santana", 2014, "https://en.wikipedia.org/wiki/The_Universal_Tone_(book)")]),
   E("santana", "tito-puente", "Tito Puente gave Santana the Latin rhythms that became the heartbeat distinguishing his group from any other rock band.",
