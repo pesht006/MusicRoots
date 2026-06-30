@@ -160,7 +160,7 @@ label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 6px
 /* ---- Explore / graph ---- */
 .explore { display: flex; height: calc(100vh - 57px); }
 .graph-wrap { flex: 1; position: relative; overflow: hidden; }
-.graph-svg { width: 100%; height: 100%; display: block; cursor: grab; background:
+.graph-svg { width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; background:
   radial-gradient(circle at 1px 1px, rgba(27, 34, 51, 0.05) 1px, transparent 0) 0 0 / 26px 26px; }
 .graph-svg.grabbing { cursor: grabbing; }
 .graph-node { cursor: pointer; }

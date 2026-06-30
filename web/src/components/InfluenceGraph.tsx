@@ -57,6 +57,10 @@ export default function InfluenceGraph({
 
   const positioned = useMemo(() => layout(graph.nodes), [graph]);
 
+  // Latest transform, readable from native (non-React) touch listeners.
+  const tRef = useRef(t);
+  tRef.current = t;
+
   // Measure container.
   useEffect(() => {
     if (!wrapRef.current) return;
@@ -73,6 +77,124 @@ export default function InfluenceGraph({
     setT({ x: size.w / 2, y: size.h / 2, k: 1 });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [graph.focus.slug, size.w, size.h]);
+
+  // Touch gestures: one finger pans, two fingers pinch-zoom about the gesture
+  // centre. Registered natively with passive:false so we can preventDefault and
+  // stop the page from scrolling/zooming underneath the graph.
+  useEffect(() => {
+    const el = wrapRef.current;
+    if (!el) return;
+
+    type Gesture = {
+      mode: "pan" | "pinch";
+      count: number;
+      // pan
+      sx: number;
+      sy: number;
+      bx: number;
+      by: number;
+      // pinch
+      dist0: number;
+      gx: number;
+      gy: number;
+      bk: number;
+    };
+    let g: Gesture | null = null;
+
+    const init = (e: TouchEvent) => {
+      const r = el.getBoundingClientRect();
+      const cur = tRef.current;
+      if (e.touches.length >= 2) {
+        const a = e.touches[0];
+        const b = e.touches[1];
+        const mx = (a.clientX + b.clientX) / 2 - r.left;
+        const my = (a.clientY + b.clientY) / 2 - r.top;
+        const dist0 = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY) || 1;
+        g = {
+          mode: "pinch",
+          count: 2,
+          sx: 0,
+          sy: 0,
+          bx: 0,
+          by: 0,
+          dist0,
+          gx: (mx - cur.x) / cur.k,
+          gy: (my - cur.y) / cur.k,
+          bk: cur.k,
+        };
+      } else if (e.touches.length === 1) {
+        const tch = e.touches[0];
+        g = {
+          mode: "pan",
+          count: 1,
+          sx: tch.clientX,
+          sy: tch.clientY,
+          bx: cur.x,
+          by: cur.y,
+          dist0: 0,
+          gx: 0,
+          gy: 0,
+          bk: cur.k,
+        };
+      } else {
+        g = null;
+      }
+    };
+
+    const onStart = (e: TouchEvent) => {
+      setGrabbing(true);
+      init(e);
+    };
+
+    const onMove = (e: TouchEvent) => {
+      if (!g) return;
+      // Finger added/removed mid-gesture: rebase against the new configuration.
+      if (e.touches.length !== g.count) {
+        init(e);
+        return;
+      }
+      e.preventDefault();
+      const r = el.getBoundingClientRect();
+      if (g.mode === "pinch" && e.touches.length >= 2) {
+        const a = e.touches[0];
+        const b = e.touches[1];
+        const mx = (a.clientX + b.clientX) / 2 - r.left;
+        const my = (a.clientY + b.clientY) / 2 - r.top;
+        const dist = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY) || 1;
+        const k = Math.min(2.5, Math.max(0.25, g.bk * (dist / g.dist0)));
+        // keep the graph point under the pinch centre stable
+        setT({ k, x: mx - g.gx * k, y: my - g.gy * k });
+      } else if (g.mode === "pan") {
+        const tch = e.touches[0];
+        setT((prev) => ({
+          ...prev,
+          x: g!.bx + (tch.clientX - g!.sx),
+          y: g!.by + (tch.clientY - g!.sy),
+        }));
+      }
+    };
+
+    const onEnd = (e: TouchEvent) => {
+      if (e.touches.length === 0) {
+        g = null;
+        setGrabbing(false);
+      } else {
+        // Lifting one finger of a pinch → continue panning with the other.
+        init(e);
+      }
+    };
+
+    el.addEventListener("touchstart", onStart, { passive: false });
+    el.addEventListener("touchmove", onMove, { passive: false });
+    el.addEventListener("touchend", onEnd, { passive: false });
+    el.addEventListener("touchcancel", onEnd, { passive: false });
+    return () => {
+      el.removeEventListener("touchstart", onStart);
+      el.removeEventListener("touchmove", onMove);
+      el.removeEventListener("touchend", onEnd);
+      el.removeEventListener("touchcancel", onEnd);
+    };
+  }, []);
 
   const onWheel = (e: React.WheelEvent) => {
     e.preventDefault();
