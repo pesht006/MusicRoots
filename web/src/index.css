@@ -225,6 +225,37 @@ label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 6px
 .section-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin: 4px 0 12px; }
 .source-line { font-size: 13px; color: var(--muted); margin-top: 6px; padding-left: 10px; border-left: 2px solid var(--border); }
 
+/* ---- Tree widget ---- */
+.tree-widget {
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+}
+.tree-widget-toggle {
+  width: 100%; display: flex; align-items: center; gap: 10px;
+  padding: 8px 16px; border: none; border-radius: 0; background: transparent;
+  font-size: 13px; font-weight: 600; cursor: pointer; text-align: left;
+  color: var(--text);
+}
+.tree-widget-toggle:hover { background: var(--panel-2); border: none; }
+.tree-counts { display: flex; gap: 6px; margin-left: auto; }
+.tree-chevron { font-size: 10px; color: var(--muted); flex: none; }
+.tree-body {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 8px 16px 12px; border-top: 1px solid var(--border);
+  background: var(--panel);
+}
+.tree-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.tree-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; flex: none; }
+.tree-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 9px 3px 5px; border-radius: 999px; font-size: 12px; font-weight: 600;
+  cursor: pointer; border: 1px solid var(--border); background: var(--panel-2);
+  color: var(--text); transition: 0.12s;
+}
+.tree-chip:hover { border-color: var(--accent); background: var(--panel); }
+.tree-chip.root { border-color: rgba(239,122,26,0.3); }
+.tree-chip.heir { border-color: rgba(47,134,255,0.3); }
+
 /* ---- Moderation ---- */
 .contrib { display: grid; gap: 14px; }
 .kv { font-size: 13px; }

@@ -5,6 +5,53 @@ import SearchBox from "../components/SearchBox";
 import Avatar from "../components/Avatar";
 import { api, years, type ArtistDetail, type Graph, type InfluenceLink } from "../api";
 
+function TreeWidget({ detail, onSelect }: { detail: ArtistDetail; onSelect: (slug: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const roots = detail.roots.slice(0, 6);
+  const heirs = detail.heirs.slice(0, 6);
+  return (
+    <div className="tree-widget">
+      <button className="tree-widget-toggle" onClick={() => setOpen((o) => !o)}>
+        <span>Древо влияний — {detail.name}</span>
+        <span className="tree-counts">
+          <span className="pill" style={{ background: "rgba(239,122,26,0.12)", color: "var(--root)" }}>{roots.length} корня</span>
+          <span className="pill" style={{ background: "rgba(47,134,255,0.12)", color: "var(--heir)" }}>{heirs.length} наследника</span>
+        </span>
+        <span className="tree-chevron">{open ? "▲" : "▼"}</span>
+      </button>
+      {open && (
+        <div className="tree-body">
+          {roots.length > 0 && (
+            <div className="tree-row">
+              <span className="tree-label" style={{ color: "var(--root)" }}>Корни →</span>
+              {roots.map((r) => (
+                <button key={r.influenceId} className="tree-chip root" onClick={() => onSelect(r.artist.slug)}>
+                  <Avatar name={r.artist.name} image={r.artist.image} size={18} rounded={4} />
+                  {r.artist.name}
+                </button>
+              ))}
+            </div>
+          )}
+          {heirs.length > 0 && (
+            <div className="tree-row">
+              <span className="tree-label" style={{ color: "var(--heir)" }}>Наследники →</span>
+              {heirs.map((h) => (
+                <button key={h.influenceId} className="tree-chip heir" onClick={() => onSelect(h.artist.slug)}>
+                  <Avatar name={h.artist.name} image={h.artist.image} size={18} rounded={4} />
+                  {h.artist.name}
+                </button>
+              ))}
+            </div>
+          )}
+          {roots.length === 0 && heirs.length === 0 && (
+            <span className="muted" style={{ fontSize: 13 }}>Связи пока не добавлены.</span>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 const DEFAULT_FOCUS = "metallica";
 
 export default function ExplorePage() {
@@ -90,6 +137,8 @@ export default function ExplorePage() {
             </span>
           ))}
         </div>
+
+        {detail && <TreeWidget detail={detail} onSelect={select} />}
 
         <div className="graph-wrap" style={{ position: "relative", flex: 1 }}>
           <div className="controls">
