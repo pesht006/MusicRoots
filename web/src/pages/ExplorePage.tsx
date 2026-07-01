@@ -63,7 +63,7 @@ export default function ExplorePage() {
   const [detail, setDetail] = useState<ArtistDetail | null>(null);
   const [trail, setTrail] = useState<{ slug: string; name: string }[]>([]);
   const [error, setError] = useState("");
-  const [controlsOpen, setControlsOpen] = useState(true);
+  const [controlsOpen, setControlsOpen] = useState(false);
 
   useEffect(() => {
     let active = true;
